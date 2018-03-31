@@ -12,6 +12,7 @@
 		2EC339412041D12F0074AECB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3393F2041D12F0074AECB /* Main.storyboard */; };
 		2EC339432041D12F0074AECB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339422041D12F0074AECB /* Assets.xcassets */; };
 		2EC339462041D12F0074AECB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339442041D12F0074AECB /* LaunchScreen.storyboard */; };
+		EA1A11AF5DF5F91C3316739A /* Pods_MLBStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,9 @@
 		2EC339422041D12F0074AECB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EC339452041D12F0074AECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EC339472041D12F0074AECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLBStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A868DF218249038DC1176A6 /* Pods-MLBStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLBStats.release.xcconfig"; path = "Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats.release.xcconfig"; sourceTree = "<group>"; };
+		DA7AB273CD83DD0E53954E8D /* Pods-MLBStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLBStats.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA1A11AF5DF5F91C3316739A /* Pods_MLBStats.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +45,8 @@
 			children = (
 				2EC3393A2041D12F0074AECB /* MLBStats */,
 				2EC339392041D12F0074AECB /* Products */,
+				FB4ADF7A81B83D064D84E497 /* Pods */,
+				34373E7C7B63A96E15AA0413 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +71,23 @@
 			path = MLBStats;
 			sourceTree = "<group>";
 		};
+		34373E7C7B63A96E15AA0413 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB4ADF7A81B83D064D84E497 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DA7AB273CD83DD0E53954E8D /* Pods-MLBStats.debug.xcconfig */,
+				9A868DF218249038DC1176A6 /* Pods-MLBStats.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -71,9 +95,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2EC3394A2041D12F0074AECB /* Build configuration list for PBXNativeTarget "MLBStats" */;
 			buildPhases = (
+				AF55EB865ACE64D68781FE69 /* [CP] Check Pods Manifest.lock */,
 				2EC339342041D12F0074AECB /* Sources */,
 				2EC339352041D12F0074AECB /* Frameworks */,
 				2EC339362041D12F0074AECB /* Resources */,
+				93426280A56F44D950C5979D /* [CP] Embed Pods Frameworks */,
+				87F7015DF674AF78C2BF477A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,6 +157,60 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		87F7015DF674AF78C2BF477A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		93426280A56F44D950C5979D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AF55EB865ACE64D68781FE69 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MLBStats-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2EC339342041D12F0074AECB /* Sources */ = {
@@ -272,9 +353,11 @@
 		};
 		2EC3394B2041D12F0074AECB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA7AB273CD83DD0E53954E8D /* Pods-MLBStats.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6V78FR972C;
 				INFOPLIST_FILE = MLBStats/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Bob.MLBStats;
@@ -286,9 +369,11 @@
 		};
 		2EC3394C2041D12F0074AECB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A868DF218249038DC1176A6 /* Pods-MLBStats.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 6V78FR972C;
 				INFOPLIST_FILE = MLBStats/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Bob.MLBStats;
