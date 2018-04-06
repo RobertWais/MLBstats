@@ -10,15 +10,16 @@ import UIKit
 import Alamofire
 class ViewController: UIViewController {
 
+    @IBOutlet var button: UITabBarItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        button.image = UIImage(named: "Standings")
         //Players: https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&team=bos
         //All Teams: https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&sort=team.abbr
         Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&team=bos")
             .responseJSON { response  in
                 let result = response.result
-                
+                print(result)
                 print("Before-----------------")
                if let dict = result.value as? Dictionary<String,Any> {
                    if let allInfo = dict["rosterplayers"] as? Dictionary<String,Any> {
