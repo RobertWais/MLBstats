@@ -13,7 +13,7 @@
         <!--Standings-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MLBStats" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="StandingsVC" customModule="MLBStats" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -23,9 +23,6 @@
                     <tabBarItem key="tabBarItem" title="Standings" image="Standings" landscapeImage="Standings" selectedImage="Standings" id="Dc2-nY-SPA">
                         <color key="badgeColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBarItem>
-                    <connections>
-                        <outlet property="button" destination="Dc2-nY-SPA" id="j21-Hy-BV9"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -34,11 +31,32 @@
         <!--Individual-->
         <scene sceneID="5aO-4F-Hid">
             <objects>
-                <viewController id="jLk-Vt-K0z" sceneMemberID="viewController">
+                <viewController id="jLk-Vt-K0z" customClass="IndividualVC" customModule="MLBStats" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EBe-On-fzC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oot-T6-uAt">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <color key="barTintColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <items>
+                                    <navigationItem id="RJX-4I-pfr"/>
+                                </items>
+                            </navigationBar>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="wai-xV-BYC">
+                                <rect key="frame" x="0.0" y="44" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.1383306084" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Oot-T6-uAt" firstAttribute="top" secondItem="EBe-On-fzC" secondAttribute="top" id="7H7-aa-YOg"/>
+                            <constraint firstItem="Oot-T6-uAt" firstAttribute="leading" secondItem="cpM-ud-h1K" secondAttribute="leading" id="OUo-G9-Iqh"/>
+                            <constraint firstItem="Oot-T6-uAt" firstAttribute="trailing" secondItem="cpM-ud-h1K" secondAttribute="trailing" id="dLt-3I-lRx"/>
+                            <constraint firstItem="wai-xV-BYC" firstAttribute="leading" secondItem="cpM-ud-h1K" secondAttribute="leading" id="jqc-fw-BK3"/>
+                            <constraint firstItem="wai-xV-BYC" firstAttribute="trailing" secondItem="cpM-ud-h1K" secondAttribute="trailing" id="tU4-Ky-fef"/>
+                            <constraint firstItem="wai-xV-BYC" firstAttribute="top" secondItem="Oot-T6-uAt" secondAttribute="bottom" id="tvs-2D-I3r"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="cpM-ud-h1K"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Individual" image="Individual" landscapeImage="Individual" selectedImage="Individual" id="Ec9-lF-sRO"/>
@@ -50,7 +68,7 @@
         <!--Team-->
         <scene sceneID="ngo-CX-2AX">
             <objects>
-                <viewController id="bx9-bo-agw" sceneMemberID="viewController">
+                <viewController id="bx9-bo-agw" customClass="TeamVC" customModule="MLBStats" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0f9-GQ-xzX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

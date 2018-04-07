@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */; };
+		2E3EB5902076FE5A004FDE84 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58F2076FE5A004FDE84 /* TeamVC.swift */; };
+		2E42B454207830C4002D8779 /* Shared in Resources */ = {isa = PBXBuildFile; fileRef = 2E42B453207830C3002D8779 /* Shared */; };
 		2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393B2041D12F0074AECB /* AppDelegate.swift */; };
-		2EC3393E2041D12F0074AECB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393D2041D12F0074AECB /* ViewController.swift */; };
+		2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393D2041D12F0074AECB /* StandingsVC.swift */; };
 		2EC339412041D12F0074AECB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3393F2041D12F0074AECB /* Main.storyboard */; };
 		2EC339432041D12F0074AECB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339422041D12F0074AECB /* Assets.xcassets */; };
 		2EC339462041D12F0074AECB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339442041D12F0074AECB /* LaunchScreen.storyboard */; };
@@ -16,9 +19,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualVC.swift; sourceTree = "<group>"; };
+		2E3EB58F2076FE5A004FDE84 /* TeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamVC.swift; sourceTree = "<group>"; };
+		2E42B453207830C3002D8779 /* Shared */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Shared; path = "../../../../Downloads/sqlite-final/SQLiteTutorial/Shared"; sourceTree = "<group>"; };
 		2EC339382041D12F0074AECB /* MLBStats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLBStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3393B2041D12F0074AECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2EC3393D2041D12F0074AECB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2EC3393D2041D12F0074AECB /* StandingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsVC.swift; sourceTree = "<group>"; };
 		2EC339402041D12F0074AECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2EC339422041D12F0074AECB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EC339452041D12F0074AECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -40,6 +46,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E3EB58C2076FDA5004FDE84 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				2EC3393D2041D12F0074AECB /* StandingsVC.swift */,
+				2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */,
+				2E3EB58F2076FE5A004FDE84 /* TeamVC.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		2EC3392F2041D12F0074AECB = {
 			isa = PBXGroup;
 			children = (
@@ -61,8 +77,9 @@
 		2EC3393A2041D12F0074AECB /* MLBStats */ = {
 			isa = PBXGroup;
 			children = (
+				2E42B453207830C3002D8779 /* Shared */,
 				2EC3393B2041D12F0074AECB /* AppDelegate.swift */,
-				2EC3393D2041D12F0074AECB /* ViewController.swift */,
+				2E3EB58C2076FDA5004FDE84 /* Controllers */,
 				2EC3393F2041D12F0074AECB /* Main.storyboard */,
 				2EC339422041D12F0074AECB /* Assets.xcassets */,
 				2EC339442041D12F0074AECB /* LaunchScreen.storyboard */,
@@ -151,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EC339462041D12F0074AECB /* LaunchScreen.storyboard in Resources */,
+				2E42B454207830C4002D8779 /* Shared in Resources */,
 				2EC339432041D12F0074AECB /* Assets.xcassets in Resources */,
 				2EC339412041D12F0074AECB /* Main.storyboard in Resources */,
 			);
@@ -182,10 +200,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -217,8 +237,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EC3393E2041D12F0074AECB /* ViewController.swift in Sources */,
+				2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */,
 				2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */,
+				2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */,
+				2E3EB5902076FE5A004FDE84 /* TeamVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

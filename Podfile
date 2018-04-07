@@ -6,6 +6,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target ‘MLBStats’ do
-    pod 'Alamofire', '~> 4.6'
+    pod 'Alamofire', '~> 4.6’
+    pod 'SQLite.swift', '~> 0.11.4'
 
 end
