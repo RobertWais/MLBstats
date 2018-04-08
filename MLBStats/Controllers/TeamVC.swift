@@ -9,12 +9,12 @@
 import UIKit
 import SQLite3
 class TeamVC: UIViewController {
-let path = Bundle.main.path(forResource: "MLBstats", ofType: ".db", inDirectory: "Shared")!
+//let path = Bundle.main.path(forResource: "MLBstats", ofType: ".db", inDirectory: "Shared")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Team")
-        let db = openDB()
+    //et db = openDB()
         // Do any additional setup after loading the view.
     }
 
@@ -22,7 +22,7 @@ let path = Bundle.main.path(forResource: "MLBstats", ofType: ".db", inDirectory:
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    /*
     func openDB()->OpaquePointer? {
         var db: OpaquePointer? = nil
         print("Path: \(String(describing: path))")
@@ -34,6 +34,7 @@ let path = Bundle.main.path(forResource: "MLBstats", ofType: ".db", inDirectory:
         }
         return db
     }
+ */
     /*
     // MARK: - Navigation
 
