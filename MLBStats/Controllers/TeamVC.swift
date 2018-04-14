@@ -8,12 +8,54 @@
 
 import UIKit
 import SQLite3
-class TeamVC: UIViewController {
-//let path = Bundle.main.path(forResource: "MLBstats", ofType: ".db", inDirectory: "Shared")!
+class TeamVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataSource {
+    @IBOutlet var picker: UIPickerView!
+    
+    var pickerDataSource = [["1", "2", "3", "4"],["A","B","C"],["a","b","c","d"]];
+    var stats = ["SB","RBI","AVG","H","HR","R","AB"]
+    var options = ["Most","Least","Top 5"]
+    var teams = ["Brewers","Atlanta","Cubs"]
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if component == 0{
+            return stats.count;
+        }else if component == 1 {
+            return options.count;
+        }else{
+            return teams.count;
+        }
+    }
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+        
+        switch component {
+        case 0:
+            return stats[row]
+        case 1:
+            return options[row]
+        case 2:
+            return teams[row]
+        default:
+            return "?"
+            
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
+        
+        print("Selected: 1:\(picker.selectedRow(inComponent: 0)) 2:\(picker.selectedRow(inComponent: 1)) 3:\(picker.selectedRow(inComponent: 2).description)")
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Team")
+        picker.delegate = self
+        picker.dataSource = self
     //et db = openDB()
         // Do any additional setup after loading the view.
     }
@@ -22,6 +64,20 @@ class TeamVC: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /*
     func openDB()->OpaquePointer? {
         var db: OpaquePointer? = nil

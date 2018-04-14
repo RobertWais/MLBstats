@@ -140,14 +140,40 @@
                     <view key="view" contentMode="scaleToFill" id="0f9-GQ-xzX">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ru-Xe-Ykq">
+                                <rect key="frame" x="0.0" y="44" width="375" height="113"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="113" id="i2Q-Ta-9PR"/>
+                                </constraints>
+                            </pickerView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oFp-6H-bj9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <color key="barTintColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <items>
+                                    <navigationItem id="Odt-n0-bfM"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="0Ru-Xe-Ykq" firstAttribute="leading" secondItem="Iow-nw-fF3" secondAttribute="leading" id="3Tz-lq-7pW"/>
+                            <constraint firstItem="0Ru-Xe-Ykq" firstAttribute="trailing" secondItem="Iow-nw-fF3" secondAttribute="trailing" id="BbE-XD-ziT"/>
+                            <constraint firstItem="oFp-6H-bj9" firstAttribute="leading" secondItem="Iow-nw-fF3" secondAttribute="leading" id="BgT-Y5-InO"/>
+                            <constraint firstItem="0Ru-Xe-Ykq" firstAttribute="top" secondItem="oFp-6H-bj9" secondAttribute="bottom" id="Hro-nI-klO"/>
+                            <constraint firstItem="oFp-6H-bj9" firstAttribute="top" secondItem="0f9-GQ-xzX" secondAttribute="top" id="YQd-3i-tWA"/>
+                            <constraint firstItem="oFp-6H-bj9" firstAttribute="trailing" secondItem="Iow-nw-fF3" secondAttribute="trailing" id="khY-UV-rxi"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Iow-nw-fF3"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Team" image="Team" landscapeImage="Team" selectedImage="Team" id="Bdj-Qy-U4y"/>
+                    <connections>
+                        <outlet property="picker" destination="0Ru-Xe-Ykq" id="4fF-bR-vFH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xl4-WU-N4J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="612" y="-222"/>
+            <point key="canvasLocation" x="612" y="-222.63868065967017"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="7V0-CY-giP">

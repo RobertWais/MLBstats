@@ -16,6 +16,7 @@
 		2EC339432041D12F0074AECB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339422041D12F0074AECB /* Assets.xcassets */; };
 		2EC339462041D12F0074AECB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339442041D12F0074AECB /* LaunchScreen.storyboard */; };
 		2ED15FF02079A2A500526853 /* IndyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED15FEF2079A2A500526853 /* IndyCell.swift */; };
+		2ED15FF22079AF1600526853 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED15FF12079AF1600526853 /* Player.swift */; };
 		EA1A11AF5DF5F91C3316739A /* Pods_MLBStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		2EC339452041D12F0074AECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2EC339472041D12F0074AECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ED15FEF2079A2A500526853 /* IndyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndyCell.swift; sourceTree = "<group>"; };
+		2ED15FF12079AF1600526853 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLBStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A868DF218249038DC1176A6 /* Pods-MLBStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLBStats.release.xcconfig"; path = "Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats.release.xcconfig"; sourceTree = "<group>"; };
 		DA7AB273CD83DD0E53954E8D /* Pods-MLBStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLBStats.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats.debug.xcconfig"; sourceTree = "<group>"; };
@@ -87,6 +89,7 @@
 				2EC339422041D12F0074AECB /* Assets.xcassets */,
 				2EC339442041D12F0074AECB /* LaunchScreen.storyboard */,
 				2EC339472041D12F0074AECB /* Info.plist */,
+				2ED15FF12079AF1600526853 /* Player.swift */,
 			);
 			path = MLBStats;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 				2ED15FF02079A2A500526853 /* IndyCell.swift in Sources */,
 				2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */,
 				2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */,
+				2ED15FF22079AF1600526853 /* Player.swift in Sources */,
 				2E3EB5902076FE5A004FDE84 /* TeamVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
