@@ -18,7 +18,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     var pickerDataSource = [["1", "2", "3", "4"],["A","B","C"],["a","b","c","d"]];
     var stats = ["SB","RBI","AVG","H","HR","R","AB"]
     var options = ["Most","Least","Top 5"]
-    var teams = ["Brewers","Atlanta","Cubs"]
+    var teams = ["Orioles","Blue Jays","Red Sox","Yankees","Rays","Indians","Tigers","Royals","White Sox","Twins","Rangers","Astros","Mariners","Angels","Athletics","Nationals","Mets","Marlins","Phillies","Braves","Cubs","Pirates","Cardinals","Brewers","Reds","Giants",    "Dodgers","Rockies","Padres","Diamondbacks"]
     var statsOption = "SB"
     var optionsSeperator = "Most"
     var teamOption = "Brewers"
@@ -48,6 +48,9 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Team")
+        teams.sort()
+        teams.insert("-", at:0)
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         picker.delegate = self

@@ -35,6 +35,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         collectionView.dataSource = self
         collectionView.delegate = self
         db = openDB(path: prepareDatabaseFile())
+        getAllTeams()
         //query()
         
         
@@ -264,6 +265,35 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         
         // 6
         sqlite3_finalize(queryStatement)
+    }
+    
+    func getAllTeams(){
+        let query = "SELECT (Name) FROM TEAM"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, query, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            var count = 0
+            var arr = [String]()
+            while(sqlite3_step(queryStatement)) == SQLITE_ROW {
+                
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let name = String(cString: queryResultCol1!)
+                
+                arr.append(name)
+                //print("Team: \(name)")
+            }
+            
+            for index in 0..<arr.count{
+                print("\(arr[index]),")
+            }
+            print("Count \(count)")
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+
     }
     
     let queryStatementString = "SELECT PlayerID, FirstName, LastName, Position, JerseyNumber, Age, Height, Weight FROM Player"
