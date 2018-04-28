@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1984DB2081C43800A69759 /* StatsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1984DA2081C43800A69759 /* StatsCell.swift */; };
 		2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */; };
-		2E3EB5902076FE5A004FDE84 /* TeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58F2076FE5A004FDE84 /* TeamVC.swift */; };
+		2E3EB5902076FE5A004FDE84 /* IndividualStatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */; };
 		2E42B454207830C4002D8779 /* Shared in Resources */ = {isa = PBXBuildFile; fileRef = 2E42B453207830C3002D8779 /* Shared */; };
 		2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393B2041D12F0074AECB /* AppDelegate.swift */; };
 		2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393D2041D12F0074AECB /* StandingsVC.swift */; };
@@ -21,8 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E1984DA2081C43800A69759 /* StatsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsCell.swift; sourceTree = "<group>"; };
 		2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualVC.swift; sourceTree = "<group>"; };
-		2E3EB58F2076FE5A004FDE84 /* TeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamVC.swift; sourceTree = "<group>"; };
+		2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualStatsVC.swift; sourceTree = "<group>"; };
 		2E42B453207830C3002D8779 /* Shared */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Shared; path = "../../../../Downloads/sqlite-final/SQLiteTutorial/Shared"; sourceTree = "<group>"; };
 		2EC339382041D12F0074AECB /* MLBStats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLBStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3393B2041D12F0074AECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +57,7 @@
 			children = (
 				2EC3393D2041D12F0074AECB /* StandingsVC.swift */,
 				2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */,
-				2E3EB58F2076FE5A004FDE84 /* TeamVC.swift */,
+				2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				2ED15FEF2079A2A500526853 /* IndyCell.swift */,
+				2E1984DA2081C43800A69759 /* StatsCell.swift */,
 			);
 			path = CollectionCells;
 			sourceTree = "<group>";
@@ -254,9 +257,10 @@
 				2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */,
 				2ED15FF02079A2A500526853 /* IndyCell.swift in Sources */,
 				2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */,
+				2E1984DB2081C43800A69759 /* StatsCell.swift in Sources */,
 				2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */,
 				2ED15FF22079AF1600526853 /* Player.swift in Sources */,
-				2E3EB5902076FE5A004FDE84 /* TeamVC.swift in Sources */,
+				2E3EB5902076FE5A004FDE84 /* IndividualStatsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
