@@ -31,10 +31,10 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         //getvalues
         
         //if option, must be stat
-        if(){
+        if(true){
         //team empty
             //SELCT * FROM player WHERE ?(stat) ?(option)
-        }else if(){
+        }else if(true){
         //team not empty
             //Stat and option
             //SELECT * FROM player where
