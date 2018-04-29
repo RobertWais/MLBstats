@@ -33,6 +33,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         print("Team: \(teamOption)")
         //getvalues
         selectNonTeamStats(type: "Most", attribute: "Hits")
+        //selectPlayerStats()
     }
     
     override func viewDidLoad() {
@@ -154,17 +155,61 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         sqlite3_finalize(queryStatement)
     }
     
+    func selectPlayerStats(){
+        print("Checking indy Stats")
+        var queryStatement: OpaquePointer?
+        var name:NSString = "Harper"
+        var queryString = "SELECT Player.FirstName, Player.LastName, Performance.PlayerID, Performance.GameID, Performance.Hits, Performance.RunsBattedIn, Performance.BattingAverage, Performance.StolenBases, Performance.HomeRuns, Performance.Runs, Performance.AtBats  FROM Player JOIN Performance on Player.PlayerID = Performance.PlayerID GROUP BY Player.FirstName, Player.LastName HAVING Player.LastName = ?"
+        
+        if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
+            //Entering Elements
+            sqlite3_bind_text(queryStatement, 1, name.utf8String, -1, nil)
+            
+            
+            while(sqlite3_step(queryStatement)) == SQLITE_ROW {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
+                let PlayerID = sqlite3_column_int(queryStatement, 2)
+                let GameID = sqlite3_column_int(queryStatement, 3)
+                let Hits = sqlite3_column_int(queryStatement, 4)
+                let RunsBattedIn = sqlite3_column_int(queryStatement, 5)
+                let BattingAverage = sqlite3_column_int(queryStatement, 6)
+                let Stolenbases = sqlite3_column_int(queryStatement, 7)
+                let HomeRuns = sqlite3_column_int(queryStatement, 8)
+                let Runs = sqlite3_column_int(queryStatement, 9)
+                let AtBats = sqlite3_column_int(queryStatement, 10)
+                
+                print("Firstname: \(String(cString: queryResultCol1!))")
+                print("Lastname: \(String(cString: queryResultCol2!))")
+                print("PlayerID: \(PlayerID)")
+                print("GameID: \(GameID)")
+                print("Hits: \(Hits)")
+                print("RunsBattedIm: \(RunsBattedIn)")
+                print("Batting Average: \(BattingAverage)")
+                print("StolenBases: \(Stolenbases)")
+                print("HomeRuns: \(HomeRuns)")
+                print("Runs: \(Runs)")
+                print("AtBats: \(AtBats)")
+                
+            }
+        }else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+    }
     
     func selectNonTeamStats(type: String, attribute: NSString){
         print("Attempt")
         var queryStatement: OpaquePointer? = nil
         //case loop to decise string
         var queryString: String?
-        queryString = "SELECT Player.FirstName, Player.LastName, Performance.Hits FROM Player JOIN Performance on Player.PlayerID = Performance.PlayerID ORDER BY (?)"
+        queryString = "SELECT Player.FirstName, Player.LastName, sum(Performance.AtBats) FROM Player JOIN Performance on Player.PlayerID = Performance.PlayerID GROUP BY Player.FirstName, Player.LastName ORDER BY sum(Performance.AtBats)"
         
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
                 //Entering Elements
-            sqlite3_bind_text(queryStatement, 1, attribute.utf8String, -1, nil)
+            //sqlite3_bind_text(queryStatement, 1, attribute.utf8String, -1, nil)
             
             
             while(sqlite3_step(queryStatement)) == SQLITE_ROW {
@@ -206,7 +251,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     func prepareDatabaseFile() -> String {
         
         print("In prepareDatabase")
-        let fileName: String = "MLBstatsFinal.db"
+        let fileName: String = "Stats.db"
         
         let fileManager:FileManager = FileManager.default
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!

@@ -35,9 +35,10 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         collectionView.dataSource = self
         collectionView.delegate = self
         db = openDB(path: prepareDatabaseFile())
-        getAllTeams()
+        //getAllTeams()
         //query()
-        
+        getStats()
+        //deleteTableInfo()
         
         //
         //https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/roster_players.json?fordate=20180401&sort=team.abbr
@@ -83,8 +84,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func prepareDatabaseFile() -> String {
         
-        print("In prepareDatabase")
-       let fileName: String = "MLBstatsFinal.db"
+       let fileName: String = "Stats.db"
         
         let fileManager:FileManager = FileManager.default
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -150,6 +150,27 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         sqlite3_finalize(insertStatement)
     }
     
+    func deleteTableInfo(){
+        var insertStatement: OpaquePointer? = nil
+        var deleteString = "DELETE FROM Performance"
+        if sqlite3_prepare_v2(db, deleteString , -1, &insertStatement, nil) == SQLITE_OK {
+            //Check if SQL Statement is successful
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully Deleted Info")
+            } else {
+                print("Could not insert row.")
+                let errorMessage = String.init(cString: sqlite3_errmsg(db))
+                print("Query could not be prepared! \(errorMessage)")
+            }
+        }else {
+            print("Delete Failed")
+            let errorMessage = String.init(cString: sqlite3_errmsg(db))
+            print("Error: \(errorMessage)")
+        }
+        //Check functionality
+        sqlite3_finalize(insertStatement)
+    }
+    
     //INSERT PLAYERID with TEAMID
     func insertPlayerTeam(playerID: Int, teamID: Int){
         print("Inserting")
@@ -178,18 +199,21 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     //INSERT PLAYER INFO
-    func insertStats(playerID: Int, SB: NSString, RBI: NSString, AVG: NSString, Hits: NSString, HR: NSString, Runs: NSString, AtBats: NSString){
+    //"INSERT INTO Performance (PlayerID, GameID, Hits, RunsBattedIn, BattingAverage, StolenBases, HomeRuns, Runs, AtBats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    func insertStats(playerID: Int, SB: Int, RBI: Int, AVG: Int, Hits: Int, HR: Int, Runs: Int, AtBats: Int){
        var insertStatement: OpaquePointer? = nil
+        var temp = 0
         if sqlite3_prepare_v2(db, insertStats , -1, &insertStatement, nil) == SQLITE_OK {
             sqlite3_bind_int(insertStatement, 1, Int32(playerID))
-            sqlite3_bind_int(insertStatement, 2,0)
-            sqlite3_bind_text(insertStatement, 3, SB.utf8String, -1,nil)
-            sqlite3_bind_text(insertStatement, 4, RBI.utf8String, -1, nil)
-            sqlite3_bind_text(insertStatement, 3, AVG.utf8String, -1,nil)
-            sqlite3_bind_text(insertStatement, 4, Hits.utf8String, -1, nil)
-            sqlite3_bind_text(insertStatement, 3, HR.utf8String, -1,nil)
-            sqlite3_bind_text(insertStatement, 4, Runs.utf8String, -1, nil)
-            sqlite3_bind_text(insertStatement, 3, AtBats.utf8String, -1,nil)
+            sqlite3_bind_int(insertStatement, 2, Int32(temp))
+            sqlite3_bind_int(insertStatement, 3, Int32(Hits))
+            sqlite3_bind_int(insertStatement, 4, Int32(RBI))
+            sqlite3_bind_int(insertStatement, 5, Int32(AVG))
+            sqlite3_bind_int(insertStatement, 6, Int32(SB))
+            sqlite3_bind_int(insertStatement, 7, Int32(HR))
+            sqlite3_bind_int(insertStatement, 8, Int32(Runs))
+            sqlite3_bind_int(insertStatement, 9, Int32(AtBats))
+            
             
             //Check if SQL Statement is successful
             if sqlite3_step(insertStatement) == SQLITE_DONE {
@@ -280,13 +304,8 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 let name = String(cString: queryResultCol1!)
                 
                 arr.append(name)
-                //print("Team: \(name)")
+                print("Team: \(name)")
             }
-            
-            for index in 0..<arr.count{
-                print("\(arr[index]),")
-            }
-            print("Count \(count)")
         } else {
             print("SELECT statement could not be prepared")
         }
@@ -466,13 +485,13 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                             //PLAYER INFO
                             for index in 0..<playerstatsentry.count{
                                 
-                                var tempSB: NSString?
-                                var tempRBI: NSString?
-                                var tempAVG :NSString?
-                                var tempHR :NSString?
-                                var tempH :NSString?
-                                var tempR :NSString?
-                                var tempAB :NSString?
+                                var tempSB: Int?
+                                var tempRBI: Int?
+                                var tempAVG :Int? = 0
+                                var tempHR :Int?
+                                var tempH :Int?
+                                var tempR :Int?
+                                var tempAB :Int?
                                 var tempID: Int?
                                 
                                 if let playerArr = playerstatsentry[index] as? Dictionary<String,Any>{
@@ -489,54 +508,54 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                                     if let stats = playerArr["stats"] as? Dictionary<String,Any>{
                                         if let atBats = stats["AtBats"] as? Dictionary<String,Any>{
                                             if let numberAtBats = atBats["#text"] as? NSString{
-                                                //print("Number of AtBats: \(numberAtBats)")
-                                                tempAB = numberAtBats
+                                                print("Number of AtBats: \(numberAtBats)")
+                                                tempAB = Int(numberAtBats as String)
                                             }
                                         }
                                         
                                         if let runs = stats["Runs"] as? Dictionary<String,Any>{
                                             if let numberRuns = runs["#text"] as? NSString{
-                                                //print("Number of Runs: \(numberRuns)")
-                                                tempR = numberRuns
+                                                print("Number of Runs: \(numberRuns)")
+                                                tempR = Int(numberRuns as String)
                                             }
                                         }
                                         
                                         if let hits = stats["Hits"] as? Dictionary<String,Any>{
                                             if let numberHits = hits["#text"] as? NSString{
-                                                //print("Number of hits \(numberHits)")
-                                                tempH = numberHits
+                                                print("Number of hits \(numberHits)")
+                                                tempH = Int(numberHits as String)
                                             }
                                         }
                                         
                                         if let homeRuns = stats["Homeruns"] as? Dictionary<String,Any>{
                                             if let numberHomeRuns = homeRuns["#text"] as? NSString{
-                                                //print("Number of homeruns: \(numberHomeRuns)")
-                                                tempHR = numberHomeRuns
+                                                print("Number of homeruns: \(numberHomeRuns)")
+                                                tempHR = Int(numberHomeRuns as String)
                                             }
                                         }
                                         
                                         if let rbi = stats["RunsBattedIn"] as? Dictionary<String,Any>{
                                             if let numberRBI = rbi["#text"] as? NSString{
-                                                //print("Number of RBI: \(numberRBI)")
-                                                tempRBI = numberRBI
+                                                print("Number of RBI: \(numberRBI)")
+                                                tempRBI = Int(numberRBI as String)
                                             }
                                         }
                                         
                                         if let stolenBases = stats["StolenBases"] as? Dictionary<String,Any>{
                                             if let numberSB = stolenBases["#text"] as? NSString{
-                                                //print("Number of Stolen Bases \(numberSB)")
-                                                tempSB = numberSB
+                                                print("Number of Stolen Bases \(numberSB)")
+                                                tempSB = Int(numberSB as String)
                                             }
                                         }
                                         
                                         if let battingAVG = stats["BattingAvg"] as? Dictionary<String,Any>{
                                             if let numberBattingAVG = battingAVG["#text"] as? NSString{
-                                                //print("Batting average: \(numberBattingAVG)")
-                                                tempAVG = numberBattingAVG
+                                                print("Batting average: \(numberBattingAVG)")
+                                                //tempAVG = Int(numberBattingAVG as String)
                                             }
                                         }
                                         
-                                        //self.insertStats(playerID: tempID!, SB: tempSB! , RBI: tempRBI!, AVG:tempAVG!, Hits: tempH!, HR: tempHR!, Runs: tempR!, AtBats: tempAB!)
+                                        self.insertStats(playerID: tempID!, SB: tempSB! , RBI: tempRBI!, AVG:tempAVG!, Hits: tempH!, HR: tempHR!, Runs: tempR!, AtBats: tempAB!)
                                     }
                                 }
                             }
