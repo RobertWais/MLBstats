@@ -13,6 +13,8 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     @IBOutlet var collectionView: UICollectionView!
     var namesArr = [String]()
+    var march = [29,30,31]
+    var april = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28]
     var teamsAdded = Set<NSString>()
     var nums = 0;
     
@@ -35,6 +37,8 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         collectionView.dataSource = self
         collectionView.delegate = self
         db = openDB(path: prepareDatabaseFile())
+        //readData()
+        
         //getAllTeams()
         //query()
         //getStats()
@@ -231,7 +235,8 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         //Check functionality
         sqlite3_finalize(insertStatement)
     }
-    func insert(playerID: Int, FirstName: NSString, LastName: NSString, Position: NSString, JerseyNumber: Int, Age: Int, Height: NSString, Weight: NSString) {
+    func insert(playerID: Int, FirstName: NSString, LastName: NSString, Position: NSString, JerseyNumber: Int, Age: Int, Height: NSString, Weight: NSString,completion: (Int)->()) {
+        var flag = 1
         var insertStatement: OpaquePointer? = nil
         // 1
         if sqlite3_prepare_v2(db, insertPlays_For , -1, &insertStatement, nil) == SQLITE_OK {
@@ -249,6 +254,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             //Check if SQL Statement is successful
             if sqlite3_step(insertStatement) == SQLITE_DONE {
                 print("Successfully inserted row.")
+                flag = 0
             } else {
                 print("Could not insert row.")
                 let errorMessage = String.init(cString: sqlite3_errmsg(db))
@@ -261,6 +267,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
         //Check functionality
         sqlite3_finalize(insertStatement)
+        completion(flag)
     }
     
     func checkingTeamID(){
@@ -352,7 +359,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     
     func readData(){
-        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/roster_players.json?fordate=20180401&sort=team.abbr")
+        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/roster_players.json?fordate=20180329&sort=team.abbr")
             .responseJSON { response  in
                 let result = response.result
                 if let dict = result.value as? Dictionary<String,Any> {
@@ -380,7 +387,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                                     
                                     if let player = playerArr["player"] as? Dictionary<String,Any>{
                                         if let firstName = player["FirstName"] as? NSString {
-                                            // print("FirstName: \(firstName)")
+                                            print("FirstName: \(firstName)")
                                             inputFirstName = firstName
                                         }
                                         
@@ -423,10 +430,6 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                                     
                                     //FOR INSERTING ALL PLAYERS
                                     
-                                     self.insert(playerID: inputPlayerID!,FirstName: inputFirstName!,LastName: inputLastName!,Position: inputPosition!,JerseyNumber: inputJerseyNumber, Age: inputAge,Height: inputHeight, Weight: inputWeight)
- 
-                                    
-                                    
                                     if let team = playerArr["team"] as? Dictionary<String,Any>{
                                         if let teamId = team["ID"] as? NSString{
                                             teamID = Int(teamId as String!)
@@ -450,16 +453,27 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                                     }
                                     
                                     //INSERT PlayerID to TeamID
-                                    self.insertPlayerTeam(playerID: inputPlayerID!, teamID: teamID!)
+                                    self.insert(playerID: inputPlayerID!,FirstName: inputFirstName!,LastName: inputLastName!,Position: inputPosition!,JerseyNumber: inputJerseyNumber, Age: inputAge,Height: inputHeight, Weight: inputWeight, completion: { (num) in
+                                        if(num==0){
+                                            print("Player: \(inputFirstName!)")
+                                            self.insertPlayerTeam(playerID: inputPlayerID!, teamID: teamID!)
+                                        }else{
+                                            print("Didnt enter row")
+                                        }
+                                    }
+                                    )
+                                    
                                     
                                     //INSERT TEAMS
                                     
-                                     if(self.teamsAdded.contains(teamNAME!)==false){
-                                     self.insertTeam(teamID: teamID!, cityName: teamCityName!, stadium: stadium, teamName: teamNAME!)
-                                     self.teamsAdded.insert(teamNAME!)
-                                     self.nums+=1
-                                     print("Teams added t;hsu far: \(self.nums)")
-                                     }
+                                    /*
+                                             if(self.teamsAdded.contains(teamNAME!)==false){
+                                             self.insertTeam(teamID: teamID!, cityName: teamCityName!, stadium: stadium, teamName: teamNAME!)
+                                             self.teamsAdded.insert(teamNAME!)
+                                             self.nums+=1
+                                             print("Teams added t;hsu far: \(self.nums)")
+                                             }
+                                        */
  
                                     
                                 }
@@ -471,8 +485,12 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
             .authenticate(user: "wais.robert", password: "Dirk1234")
     }
     
-    func getStats(){
-        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/daily_player_stats.json?fordate=20180425&playerstats=SB,RBI,AVG,H,HR,R,AB")
+    func getStats(num: Int){
+        var enter = "\(num)"
+        if(num<10){
+            enter = "0\(num)"
+        }
+        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/daily_player_stats.json?fordate=201804\(enter)&playerstats=SB,RBI,AVG,H,HR,R,AB")
             .responseJSON { (response) in
                 let result = response.result
                 //print("Result: \(response)")
