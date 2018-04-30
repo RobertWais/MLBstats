@@ -13,11 +13,17 @@ class StatsCell: UICollectionViewCell {
     @IBOutlet var lastName: UILabel!
     @IBOutlet var firstName: UILabel!
     @IBOutlet var hitsLbl: UILabel!
+    @IBOutlet var homeRunLbl: UILabel!
+    @IBOutlet var runsBattedInLbl: UILabel!
+    @IBOutlet var stolenBasesLbl: UILabel!
     
-    func configureCell(fName: String,lName: String, hits: String){
-        lastName.text = lName
-        firstName.text = fName
-        hitsLbl.text = hits
+    func configureCell(player: Player){
+        lastName.text = player._lastName!
+        firstName.text = player._firstName!
+        hitsLbl.text = String(describing: player._hits!)
+        homeRunLbl.text = String(describing: player._homeRuns!)
+        runsBattedInLbl.text = String(describing: player._runsBattedIn!)
+        stolenBasesLbl.text = String(describing: player._stolenBases!)
         var view = UIView(frame: self.frame)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.white.cgColor
