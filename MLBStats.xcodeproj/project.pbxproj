@@ -18,6 +18,7 @@
 		2EC339462041D12F0074AECB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339442041D12F0074AECB /* LaunchScreen.storyboard */; };
 		2ED15FF02079A2A500526853 /* IndyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED15FEF2079A2A500526853 /* IndyCell.swift */; };
 		2ED15FF22079AF1600526853 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED15FF12079AF1600526853 /* Player.swift */; };
+		2EFC3A3A209793C0003F13D1 /* PlayerCellTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC3A39209793BF003F13D1 /* PlayerCellTVCell.swift */; };
 		EA1A11AF5DF5F91C3316739A /* Pods_MLBStats.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		2EC339472041D12F0074AECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2ED15FEF2079A2A500526853 /* IndyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndyCell.swift; sourceTree = "<group>"; };
 		2ED15FF12079AF1600526853 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		2EFC3A39209793BF003F13D1 /* PlayerCellTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCellTVCell.swift; sourceTree = "<group>"; };
 		45D3A4F32A009043585DFF26 /* Pods_MLBStats.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MLBStats.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A868DF218249038DC1176A6 /* Pods-MLBStats.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLBStats.release.xcconfig"; path = "Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats.release.xcconfig"; sourceTree = "<group>"; };
 		DA7AB273CD83DD0E53954E8D /* Pods-MLBStats.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MLBStats.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MLBStats/Pods-MLBStats.debug.xcconfig"; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		2EC3393A2041D12F0074AECB /* MLBStats */ = {
 			isa = PBXGroup;
 			children = (
+				2EFC3A3820979388003F13D1 /* TableViewCells */,
 				2ED15FEE2079A27B00526853 /* CollectionCells */,
 				2E42B453207830C3002D8779 /* Shared */,
 				2EC3393B2041D12F0074AECB /* AppDelegate.swift */,
@@ -103,6 +106,14 @@
 				2E1984DA2081C43800A69759 /* StatsCell.swift */,
 			);
 			path = CollectionCells;
+			sourceTree = "<group>";
+		};
+		2EFC3A3820979388003F13D1 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				2EFC3A39209793BF003F13D1 /* PlayerCellTVCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		34373E7C7B63A96E15AA0413 /* Frameworks */ = {
@@ -254,6 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EFC3A3A209793C0003F13D1 /* PlayerCellTVCell.swift in Sources */,
 				2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */,
 				2ED15FF02079A2A500526853 /* IndyCell.swift in Sources */,
 				2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */,
