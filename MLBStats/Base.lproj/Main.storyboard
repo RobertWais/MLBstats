@@ -112,27 +112,91 @@
                                     <navigationItem id="RJX-4I-pfr"/>
                                 </items>
                             </navigationBar>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="wai-xV-BYC">
-                                <rect key="frame" x="0.0" y="44" width="375" height="56"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4KP-2K-DAq">
+                                <rect key="frame" x="0.0" y="44" width="375" height="574"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PlayerCell" id="Sls-D0-eX7" customClass="PlayerCellTVCell" customModule="MLBStats" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Sls-D0-eX7" id="jC6-hF-peO">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="0Dd-s0-G6d">
+                                                    <rect key="frame" x="14" y="16" width="75" height="12"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sOv-Jq-noP">
+                                                            <rect key="frame" x="0.0" y="0.0" width="75" height="12"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="75" id="Pun-5w-7Wc"/>
+                                                    </constraints>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0HQ-jt-YUC">
+                                                    <rect key="frame" x="97" y="16" width="150" height="12"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="12" id="4gB-sb-IEv"/>
+                                                        <constraint firstAttribute="width" constant="150" id="BKo-eI-P4T"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0Dd-s0-G6d" secondAttribute="bottom" constant="5" id="6i2-4Q-n9t"/>
+                                                <constraint firstItem="0Dd-s0-G6d" firstAttribute="top" secondItem="jC6-hF-peO" secondAttribute="topMargin" constant="5" id="Fbd-H2-0oY"/>
+                                                <constraint firstItem="0HQ-jt-YUC" firstAttribute="top" secondItem="jC6-hF-peO" secondAttribute="topMargin" constant="5" id="a99-yx-nCt"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0HQ-jt-YUC" secondAttribute="bottom" constant="5" id="eGJ-0t-B0z"/>
+                                                <constraint firstItem="0Dd-s0-G6d" firstAttribute="leading" secondItem="jC6-hF-peO" secondAttribute="leadingMargin" constant="-1" id="kG3-Sb-Tsq"/>
+                                                <constraint firstItem="0HQ-jt-YUC" firstAttribute="leading" secondItem="0Dd-s0-G6d" secondAttribute="trailing" constant="8" id="xfR-90-rMc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="firstNameLbl" destination="sOv-Jq-noP" id="3QS-gd-6WI"/>
+                                            <outlet property="lastNameLbl" destination="0HQ-jt-YUC" id="pUs-eG-xoE"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.1383306084" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="cpM-ud-h1K" firstAttribute="trailing" secondItem="4KP-2K-DAq" secondAttribute="trailing" id="3U6-NZ-DdT"/>
                             <constraint firstItem="Oot-T6-uAt" firstAttribute="top" secondItem="EBe-On-fzC" secondAttribute="top" id="7H7-aa-YOg"/>
+                            <constraint firstItem="4KP-2K-DAq" firstAttribute="trailing" secondItem="cpM-ud-h1K" secondAttribute="trailing" id="EGe-uL-aB1"/>
+                            <constraint firstItem="4KP-2K-DAq" firstAttribute="leading" secondItem="cpM-ud-h1K" secondAttribute="leading" id="GMi-ud-JAg"/>
+                            <constraint firstItem="4KP-2K-DAq" firstAttribute="top" secondItem="Oot-T6-uAt" secondAttribute="bottom" id="MaN-ln-bIy"/>
                             <constraint firstItem="Oot-T6-uAt" firstAttribute="leading" secondItem="cpM-ud-h1K" secondAttribute="leading" id="OUo-G9-Iqh"/>
                             <constraint firstItem="Oot-T6-uAt" firstAttribute="trailing" secondItem="cpM-ud-h1K" secondAttribute="trailing" id="dLt-3I-lRx"/>
-                            <constraint firstItem="wai-xV-BYC" firstAttribute="leading" secondItem="cpM-ud-h1K" secondAttribute="leading" id="jqc-fw-BK3"/>
-                            <constraint firstItem="wai-xV-BYC" firstAttribute="trailing" secondItem="cpM-ud-h1K" secondAttribute="trailing" id="tU4-Ky-fef"/>
-                            <constraint firstItem="wai-xV-BYC" firstAttribute="top" secondItem="Oot-T6-uAt" secondAttribute="bottom" id="tvs-2D-I3r"/>
+                            <constraint firstItem="cpM-ud-h1K" firstAttribute="bottom" secondItem="4KP-2K-DAq" secondAttribute="bottom" id="l0s-CF-baC"/>
+                            <constraint firstItem="4KP-2K-DAq" firstAttribute="leading" secondItem="cpM-ud-h1K" secondAttribute="leading" id="w09-yU-Fpv"/>
+                            <constraint firstItem="cpM-ud-h1K" firstAttribute="bottom" secondItem="4KP-2K-DAq" secondAttribute="bottom" id="wDd-Pc-CCd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="cpM-ud-h1K"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Add Player" image="Individual" landscapeImage="Individual" selectedImage="Individual" id="Ec9-lF-sRO"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="Gab-Z3-9yb" id="zUM-uN-u6R"/>
+                        <outlet property="tableView" destination="4KP-2K-DAq" id="vgJ-T3-oIC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L3i-Vx-UMG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="Gab-Z3-9yb">
+                    <connections>
+                        <outlet property="delegate" destination="jLk-Vt-K0z" id="ir7-0C-7KP"/>
+                        <outlet property="searchContentsController" destination="jLk-Vt-K0z" id="bZg-zg-HMY"/>
+                        <outlet property="searchResultsDataSource" destination="jLk-Vt-K0z" id="lid-BK-cLh"/>
+                        <outlet property="searchResultsDelegate" destination="jLk-Vt-K0z" id="dv8-uk-boD"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="612" y="442"/>
+            <point key="canvasLocation" x="612" y="441.22938530734638"/>
         </scene>
         <!--Player Stats-->
         <scene sceneID="ngo-CX-2AX">
