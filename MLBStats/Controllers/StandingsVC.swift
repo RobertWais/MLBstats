@@ -37,7 +37,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         db = openDB(path: prepareDatabaseFile())
         //getAllTeams()
         //query()
-        getStats()
+        //getStats()
         //deleteTableInfo()
         
         //
@@ -472,7 +472,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     }
     
     func getStats(){
-        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/daily_player_stats.json?fordate=20180426&playerstats=SB,RBI,AVG,H,HR,R,AB")
+        Alamofire.request("https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/daily_player_stats.json?fordate=20180425&playerstats=SB,RBI,AVG,H,HR,R,AB")
             .responseJSON { (response) in
                 let result = response.result
                 //print("Result: \(response)")
