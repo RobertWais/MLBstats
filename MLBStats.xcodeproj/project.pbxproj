@@ -11,8 +11,10 @@
 		2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */; };
 		2E3EB5902076FE5A004FDE84 /* IndividualStatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */; };
 		2E42B454207830C4002D8779 /* Shared in Resources */ = {isa = PBXBuildFile; fileRef = 2E42B453207830C3002D8779 /* Shared */; };
+		2EADCB8A2098D3A20060FD70 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADCB892098D3A20060FD70 /* LoginVC.swift */; };
+		2EADCB8D2098F3BF0060FD70 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADCB8C2098F3BF0060FD70 /* Team.swift */; };
 		2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393B2041D12F0074AECB /* AppDelegate.swift */; };
-		2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393D2041D12F0074AECB /* StandingsVC.swift */; };
+		2EC3393E2041D12F0074AECB /* TeamStatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC3393D2041D12F0074AECB /* TeamStatsVC.swift */; };
 		2EC339412041D12F0074AECB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC3393F2041D12F0074AECB /* Main.storyboard */; };
 		2EC339432041D12F0074AECB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339422041D12F0074AECB /* Assets.xcassets */; };
 		2EC339462041D12F0074AECB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EC339442041D12F0074AECB /* LaunchScreen.storyboard */; };
@@ -27,9 +29,11 @@
 		2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualVC.swift; sourceTree = "<group>"; };
 		2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualStatsVC.swift; sourceTree = "<group>"; };
 		2E42B453207830C3002D8779 /* Shared */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Shared; path = "../../../../Downloads/sqlite-final/SQLiteTutorial/Shared"; sourceTree = "<group>"; };
+		2EADCB892098D3A20060FD70 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		2EADCB8C2098F3BF0060FD70 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		2EC339382041D12F0074AECB /* MLBStats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLBStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EC3393B2041D12F0074AECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2EC3393D2041D12F0074AECB /* StandingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsVC.swift; sourceTree = "<group>"; };
+		2EC3393D2041D12F0074AECB /* TeamStatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamStatsVC.swift; sourceTree = "<group>"; };
 		2EC339402041D12F0074AECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2EC339422041D12F0074AECB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2EC339452041D12F0074AECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,11 +61,21 @@
 		2E3EB58C2076FDA5004FDE84 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2EC3393D2041D12F0074AECB /* StandingsVC.swift */,
+				2EC3393D2041D12F0074AECB /* TeamStatsVC.swift */,
 				2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */,
 				2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */,
+				2EADCB892098D3A20060FD70 /* LoginVC.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		2EADCB8B2098F3AC0060FD70 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2ED15FF12079AF1600526853 /* Player.swift */,
+				2EADCB8C2098F3BF0060FD70 /* Team.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2EC3392F2041D12F0074AECB = {
@@ -85,6 +99,7 @@
 		2EC3393A2041D12F0074AECB /* MLBStats */ = {
 			isa = PBXGroup;
 			children = (
+				2EADCB8B2098F3AC0060FD70 /* Models */,
 				2EFC3A3820979388003F13D1 /* TableViewCells */,
 				2ED15FEE2079A27B00526853 /* CollectionCells */,
 				2E42B453207830C3002D8779 /* Shared */,
@@ -94,7 +109,6 @@
 				2EC339422041D12F0074AECB /* Assets.xcassets */,
 				2EC339442041D12F0074AECB /* LaunchScreen.storyboard */,
 				2EC339472041D12F0074AECB /* Info.plist */,
-				2ED15FF12079AF1600526853 /* Player.swift */,
 			);
 			path = MLBStats;
 			sourceTree = "<group>";
@@ -266,12 +280,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				2EFC3A3A209793C0003F13D1 /* PlayerCellTVCell.swift in Sources */,
-				2EC3393E2041D12F0074AECB /* StandingsVC.swift in Sources */,
+				2EC3393E2041D12F0074AECB /* TeamStatsVC.swift in Sources */,
 				2ED15FF02079A2A500526853 /* IndyCell.swift in Sources */,
 				2EC3393C2041D12F0074AECB /* AppDelegate.swift in Sources */,
 				2E1984DB2081C43800A69759 /* StatsCell.swift in Sources */,
+				2EADCB8A2098D3A20060FD70 /* LoginVC.swift in Sources */,
 				2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */,
 				2ED15FF22079AF1600526853 /* Player.swift in Sources */,
+				2EADCB8D2098F3BF0060FD70 /* Team.swift in Sources */,
 				2E3EB5902076FE5A004FDE84 /* IndividualStatsVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
