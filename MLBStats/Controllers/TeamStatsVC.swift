@@ -9,9 +9,15 @@
 import UIKit
 import Alamofire
 import SQLite3
-class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource {
     
+    @IBOutlet var pickerView: UIPickerView!
     @IBOutlet var collectionView: UICollectionView!
+    
+    var teams = [Team]()
+    var word: [String:String] = ["SB":"StolenBases","RBI":"RunsBattedIn","AVG":"BattingAverage","H":"Hits","HR":"HomeRuns","R":"Runs","AB":"AtBats"]
+    var stats = ["SB","RBI","AVG","H","HR","R","AB"]
+    var statsOption = "SB"
     var namesArr = [String]()
     var march = [29,30,31]
     var april = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,27,28]
@@ -27,23 +33,18 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     let insertTeamInfo = "INSERT INTO Team (TeamID, City, Stadium, Name) VALUES (?, ?, ?, ?)"
     let insertStats = "INSERT INTO Performance (PlayerID, GameID, Hits, RunsBattedIn, BattingAverage, StolenBases, HomeRuns, Runs, AtBats) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        print("Reappearing")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        pickerView.tintColor=UIColor.white
         collectionView.dataSource = self
         collectionView.delegate = self
         db = openDB(path: prepareDatabaseFile())
-        //readData()
-        
-        //getAllTeams()
-        //query()
-        //getStats()
-        //deleteTableInfo()
-        
+        getAllTeams {
+            collectionView.reloadData()
+        }
         //
         //https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/roster_players.json?fordate=20180401&sort=team.abbr
         //
@@ -51,27 +52,18 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         //Players: https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&team=bos
         //All Teams: https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&sort=team.abbr
         //DAILY STATS:https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/daily_player_stats.json?fordate=20180425&playerstats=SB,RBI,AVG,H,HR,R,AB&team=bos
-        
-        
-       
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     //MARK: COLLECTION VIEWS
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return namesArr.count;
+        return teams.count;
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        print("Yes")
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "IndyCell", for: indexPath) as? IndyCell {
-            cell.configureCell(fName: namesArr[indexPath.row])
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StatsCell", for: indexPath) as? StatsCell {
+            cell.configureCell(team: teams[indexPath.row])
+            print("Creating cell")
             return cell
         }else{
             return UICollectionViewCell()
@@ -80,6 +72,29 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+    /////////////////////////////////////////////////////////////////////////////
+    
+    //MARK: PickerView
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return stats.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        var returnString: NSAttributedString!
+            returnString = NSAttributedString(string: stats[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
+        return returnString
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
+        statsOption = stats[pickerView.selectedRow(inComponent: 0)]
+        print("Stats option: \(statsOption)")
+        
     }
     
     
@@ -126,7 +141,50 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
         return db
     }
+    @IBAction func searchPressed(_ sender: Any) {
+        getAllTeams {
+            collectionView.reloadData()
+        }
+    }
     
+    func getAllTeams(completion:()->()){
+        teams.removeAll(keepingCapacity: false)
+        var queryStatement: OpaquePointer? = nil
+        var queryString: String?
+        print("this: \(word[statsOption]!)")
+        queryString = "SELECT Team.City, Team.Name, Team.TeamID as ID, sum(Performance.Hits) as Hits, sum(Performance.RunsBattedIn) as RunsBattedIn, sum(Performance.BattingAverage) as BattingAverage, sum(Performance.StolenBases) as StolenBases, sum(Performance.HomeRuns) as HomeRuns, sum(Performance.Runs) as Runs, sum(Performance.AtBats) as AtBats FROM Performance JOIN Player JOIN Plays_For JOIN Team on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID GROUP BY Team.Name ORDER BY \(word[statsOption]!) DESC"
+        
+        if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
+            while(sqlite3_step(queryStatement)) == SQLITE_ROW {
+                //let queryResultCol1 = sqlite3_column_int(queryStatement, 0)
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
+                let teamID = sqlite3_column_int(queryStatement, 2)
+                let Hits = sqlite3_column_int(queryStatement, 3)
+                let RunsBattedIn = sqlite3_column_int(queryStatement, 4)
+                let BattingAverage = sqlite3_column_int(queryStatement, 5)
+                let Stolenbases = sqlite3_column_int(queryStatement, 6)
+                let HomeRuns = sqlite3_column_int(queryStatement, 7)
+                let Runs = sqlite3_column_int(queryStatement, 8)
+                let AtBats = sqlite3_column_int(queryStatement, 9)
+                
+                let team = Team(cityName: String(cString: queryResultCol1!), teamName: String(cString: queryResultCol2!), teamID: Int(teamID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
+                teams.append(team)
+            }
+        }else {
+            print("SELECT statement could not be prepared")
+        }
+        // 6
+        sqlite3_finalize(queryStatement)
+        completion()
+    }
+    
+    ///
+    ///
+    ///CODE TO INSERT DATA INTO DATABASE
+    ///
+    ///
+    /*
     //INSERT TEAM
     func insertTeam(teamID: Int, cityName: NSString, stadium:  NSString, teamName: NSString){
         //(TeamID, City, Stadium, Name)
@@ -583,6 +641,7 @@ class StandingsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
                 }
             }.authenticate(user: "wais.robert", password: "Dirk1234")
     }
+ */
     
 }
 
