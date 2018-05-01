@@ -29,4 +29,17 @@ class StatsCell: UICollectionViewCell {
         view.layer.borderColor = UIColor.white.cgColor
         self.addSubview(view)
     }
+    
+    func configureCell(team: Team){
+        lastName.text = team._teamName!
+        firstName.text = team._cityName
+        hitsLbl.text = String(describing: team._hits!)
+        homeRunLbl.text = String(describing: team._homeRuns!)
+        runsBattedInLbl.text = String(describing: team._runsBattedIn!)
+        stolenBasesLbl.text = String(describing: team._stolenBases!)
+        var view = UIView(frame: self.frame)
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.white.cgColor
+        self.addSubview(view)
+    }
 }
