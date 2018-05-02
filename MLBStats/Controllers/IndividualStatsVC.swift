@@ -25,7 +25,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     var teams = ["Orioles","Blue Jays","Red Sox","Yankees","Rays","Indians","Tigers","Royals","White Sox","Twins","Rangers","Astros","Mariners","Angels","Athletics","Nationals","Mets","Marlins","Phillies","Braves","Cubs","Pirates","Cardinals","Brewers","Reds","Giants","Dodgers","Rockies","Padres","Diamondbacks"]
     var statsOption = "SB"
     var optionsSeperator = "Most"
-    var teamOption = "-"
+    var teamOption = "Stars"
     
  
     @IBAction func searchBtnPressed(_ sender: Any) {
@@ -35,7 +35,10 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         //getvalues
         //selectPlayerStats()
         //selectNonTeamStats(type: "Most", attribute: statsOption, option: optionsSeperator)
-        if(teamOption=="-"){
+        if(teamOption=="Stars"){
+            selectStarsStats(type: "Most", attribute: statsOption, option: optionsSeperator)
+            collectionView.reloadData()
+        }else if(teamOption=="-"){
             selectNonTeamStats(type: "Most", attribute: statsOption, option: optionsSeperator)
             collectionView.reloadData()
         }else{
@@ -51,6 +54,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         super.viewDidLoad()
         teams.sort()
         teams.insert("-", at:0)
+        teams.insert("Stars",at:0)
         collectionView.delegate = self
         collectionView.dataSource = self
         picker.delegate = self
@@ -212,6 +216,53 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         sqlite3_finalize(queryStatement)
     }
     //////////////////
+    func selectStarsStats(type: String, attribute: String, option: String){
+        print("Stars")
+        players.removeAll(keepingCapacity: false)
+        var queryStatement: OpaquePointer? = nil
+        var delimeter: String?
+        if(option=="Most"){
+            delimeter = "DESC"
+        }else if (option=="Least"){
+            delimeter = "ASC"
+        }else{
+            delimeter = "DESC LIMIT 5"
+        }
+        //case loop to decise string
+        var queryString: String?
+        var name:NSString = teamOption as NSString
+        
+        queryString = "SELECT * FROM (SELECT Player.FirstName, Player.LastName , Performance.PlayerID as ID, Performance.GameID, sum(Performance.Hits) as Hits, sum(Performance.RunsBattedIn) as RunsBattedIn, sum(Performance.BattingAverage) as BattingAverage, sum(Performance.StolenBases) as StolenBases, sum(Performance.HomeRuns) as HomeRuns, sum(Performance.Runs) as Runs, sum(Performance.AtBats) as AtBats, sum(\(word[attribute]!)), Team.Name as Name, FavoritePlayer.UserID as UserID FROM Performance JOIN Player JOIN Plays_For JOIN Team JOIN FavoritePlayer on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID AND FavoritePlayer.PlayerID = Player.PlayerID GROUP BY Player.FirstName, Player.LastName) WHERE UserID = ? ORDER BY \(word[attribute]!) \(delimeter!)"
+        
+        if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
+            //ATTEMPTS
+            sqlite3_bind_int(queryStatement, 1, Int32(User.instance.userId!))
+            while(sqlite3_step(queryStatement)) == SQLITE_ROW {
+                //let queryResultCol1 = sqlite3_column_int(queryStatement, 0)
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
+                let PlayerID = sqlite3_column_int(queryStatement, 2)
+                let GameID = sqlite3_column_int(queryStatement, 3)
+                let Hits = sqlite3_column_int(queryStatement, 4)
+                let RunsBattedIn = sqlite3_column_int(queryStatement, 5)
+                let BattingAverage = sqlite3_column_int(queryStatement, 6)
+                let Stolenbases = sqlite3_column_int(queryStatement, 7)
+                let HomeRuns = sqlite3_column_int(queryStatement, 8)
+                let Runs = sqlite3_column_int(queryStatement, 9)
+                let AtBats = sqlite3_column_int(queryStatement, 10)
+                let sum = sqlite3_column_int(queryStatement, 11)
+                let queryResultCol13 = sqlite3_column_text(queryStatement, 12)
+                
+                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
+                players.append(player)
+            }
+        }else {
+            print("SELECT statement could not be prepared")
+        }
+        // 6
+        sqlite3_finalize(queryStatement)
+    }
+    //////////////////
     func selectTeamStats(type: String, attribute: String, option: String){
         print("Here")
         players.removeAll(keepingCapacity: false)
@@ -250,24 +301,6 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                
                 let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
                 players.append(player)
-                
-                
-               /*
-                print("Firstname: \(String(cString: queryResultCol1!))")
-                print("Lastname: \(String(cString: queryResultCol2!))")
-                print("PlayerID: \(PlayerID)")
-                print("GameID: \(GameID)")
-                print("Hits: \(Hits)")
-                print("RunsBattedIm: \(RunsBattedIn)")
-                print("Batting Average: \(BattingAverage)")
-                print("StolenBases: \(Stolenbases)")
-                print("HomeRuns: \(HomeRuns)")
-                print("Runs: \(Runs)")
-                print("AtBats: \(AtBats)")
-                print("Stat sum: \(sum)")
-                print("Team: \(String(cString: queryResultCol13!))")
-                */
-                
             }
         }else {
             print("SELECT statement could not be prepared")
