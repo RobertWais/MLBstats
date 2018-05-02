@@ -63,7 +63,6 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StatsCell", for: indexPath) as? StatsCell {
             cell.configureCell(team: teams[indexPath.row])
-            print("Creating cell")
             return cell
         }else{
             return UICollectionViewCell()
@@ -93,7 +92,6 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
         statsOption = stats[pickerView.selectedRow(inComponent: 0)]
-        print("Stats option: \(statsOption)")
         
     }
     
@@ -151,7 +149,6 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         teams.removeAll(keepingCapacity: false)
         var queryStatement: OpaquePointer? = nil
         var queryString: String?
-        print("this: \(word[statsOption]!)")
         queryString = "SELECT Team.City, Team.Name, Team.TeamID as ID, sum(Performance.Hits) as Hits, sum(Performance.RunsBattedIn) as RunsBattedIn, sum(Performance.BattingAverage) as BattingAverage, sum(Performance.StolenBases) as StolenBases, sum(Performance.HomeRuns) as HomeRuns, sum(Performance.Runs) as Runs, sum(Performance.AtBats) as AtBats FROM Performance JOIN Player JOIN Plays_For JOIN Team on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID GROUP BY Team.Name ORDER BY \(word[statsOption]!) DESC"
         
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {

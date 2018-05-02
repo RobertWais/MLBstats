@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Iiv-vw-622">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="G1B-eW-ODg">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -473,12 +473,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UsernameTxt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IXz-9T-VXW">
-                                <rect key="frame" x="123.5" y="257" width="101" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HwR-5m-3jB">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -487,9 +481,8 @@
                                     <navigationItem id="3tb-Vz-PR9"/>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cm-Zt-VcU">
-                                <rect key="frame" x="123" y="286" width="102" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cm-Zt-VcU">
+                                <rect key="frame" x="132" y="286" width="84" height="30"/>
                                 <color key="backgroundColor" red="0.4165131373" green="0.47574374050000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -498,18 +491,29 @@
                                     <action selector="signInAction:" destination="G1B-eW-ODg" eventType="touchUpInside" id="Hjw-2s-dq2"/>
                                 </connections>
                             </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ze-wm-y2H">
+                                <rect key="frame" x="132" y="248" width="84" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="4ze-wm-y2H" firstAttribute="leading" secondItem="5wo-zf-r3D" secondAttribute="leading" id="224-nO-3Qm"/>
+                            <constraint firstItem="8cm-Zt-VcU" firstAttribute="trailing" secondItem="4ze-wm-y2H" secondAttribute="trailing" id="Glq-5Z-2wx"/>
+                            <constraint firstItem="4ze-wm-y2H" firstAttribute="top" secondItem="5wo-zf-r3D" secondAttribute="bottom" constant="6" id="H35-jE-AIc"/>
+                            <constraint firstItem="8cm-Zt-VcU" firstAttribute="top" secondItem="4ze-wm-y2H" secondAttribute="bottom" constant="8" id="XJ9-aY-rL0"/>
                             <constraint firstItem="5wo-zf-r3D" firstAttribute="centerX" secondItem="1fv-u6-HQM" secondAttribute="centerX" constant="-13.5" id="aSP-PF-Osp"/>
                             <constraint firstItem="5wo-zf-r3D" firstAttribute="centerY" secondItem="1fv-u6-HQM" secondAttribute="centerY" constant="-112" id="dQu-CN-3P1"/>
-                            <constraint firstItem="IXz-9T-VXW" firstAttribute="centerX" secondItem="5wo-zf-r3D" secondAttribute="centerX" id="f7V-OB-0w0"/>
-                            <constraint firstItem="IXz-9T-VXW" firstAttribute="top" secondItem="5wo-zf-r3D" secondAttribute="bottom" constant="15" id="k5s-IG-cmc"/>
+                            <constraint firstItem="4ze-wm-y2H" firstAttribute="trailing" secondItem="5wo-zf-r3D" secondAttribute="trailing" id="v4x-GZ-JPe"/>
+                            <constraint firstItem="8cm-Zt-VcU" firstAttribute="leading" secondItem="4ze-wm-y2H" secondAttribute="leading" id="zK7-PT-BT5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="1fv-u6-HQM"/>
                     </view>
                     <connections>
-                        <outlet property="usernameLbl" destination="IXz-9T-VXW" id="FaD-PQ-TBc"/>
+                        <outlet property="usernameLbl" destination="4ze-wm-y2H" id="dgF-Fr-lhl"/>
+                        <segue destination="Iiv-vw-622" kind="show" identifier="showTabs" id="Bp8-LT-t3n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hh5-to-XrN" userLabel="First Responder" sceneMemberID="firstResponder"/>

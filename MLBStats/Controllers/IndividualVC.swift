@@ -23,6 +23,7 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         ///////////
+        
        
         searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = false
@@ -35,6 +36,7 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         ///////////
         db = openDB(path: prepareDatabaseFile())
+        checkAllFavPlayers()
         tableView.delegate = self
         tableView.dataSource = self
         selectAllPlayers {
@@ -94,8 +96,17 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                                       message: "Would you like to add \(arr[indexPath.row]._firstName!) \(arr[indexPath.row]._lastName!) to your Stars",
                                       preferredStyle: .alert)
         let submitAction = UIAlertAction(title: "Add", style: .default, handler: { (action) -> Void in
-            // Get 1st TextField's text
-           print("Yes")
+            self.checkPlayerID(playerID: arr[indexPath.row]._playerID!, userID: User.instance
+                .userId!, completion: { (num) in
+                if(num==1){
+                    //Already Exists
+                    print("Already there")
+                    
+                }else{
+                    self.insertFavoritePlayer(playerID: arr[indexPath.row]._playerID!)
+                    //Doesnt exist
+                }
+            })
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
@@ -113,7 +124,83 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
  
     }
+    
     //MARK: Queries
+    func insertFavoritePlayer(playerID: Int){
+        var insertStatement: OpaquePointer? = nil
+        let insertString = "INSERT INTO FavoritePlayer (UserID,PlayerID) VALUES (?,?)"
+        let username:NSString = User.instance.username! as NSString
+        
+        if sqlite3_prepare_v2(db, insertString, -1, &insertStatement, nil) == SQLITE_OK {
+            //Enter username
+            sqlite3_bind_int(insertStatement, 1, Int32(User.instance.userId!))
+            sqlite3_bind_int(insertStatement, 2, Int32(playerID))
+            
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row.")
+            } else {
+                print("Could not insert row.")
+                let errorMessage = String.init(cString: sqlite3_errmsg(db))
+                print("Query could not be prepared! \(errorMessage)")
+            }
+        } else {
+            print("Insert statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(insertStatement)
+    }
+    func checkAllFavPlayers(){
+        var queryStatement: OpaquePointer? = nil
+        var queryString: String?
+        queryString = "SELECT FavoritePlayer.UserID, FavoritePlayer.PlayerID FROM FavoritePlayer JOIN Users on FavoritePlayer.UserID = Users.UserID"
+        
+        if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
+            while(sqlite3_step(queryStatement)) == SQLITE_ROW {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
+                
+                print("FavoritePlayerID: \(String(cString: queryResultCol1!))")
+                print("USerID: \(String(cString: queryResultCol2!))")
+            }
+            
+        }else {
+            print("SELECT statement could not be prepared")
+            let errorMessage = String.init(cString: sqlite3_errmsg(db))
+            print("Error: \(errorMessage)")
+        }
+        // 6
+        sqlite3_finalize(queryStatement)
+    }
+    func checkPlayerID(playerID: Int, userID: Int, completion: (Int)->()){
+        var queryStatement: OpaquePointer? = nil
+        var queryString: String?
+        var flag = 0
+        queryString = "SELECT * FROM FavoritePlayer JOIN Users on FavoritePlayer.UserID = Users.UserID WHERE FavoritePlayer.UserID = ? AND FavoritePlayer.PlayerID = ?"
+        
+        if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
+            print("UserID before: \(userID)")
+            print("PlayerID before: \(playerID)")
+            sqlite3_bind_int(queryStatement, 1, Int32(userID))
+            sqlite3_bind_int(queryStatement, 2, Int32(playerID))
+            while(sqlite3_step(queryStatement)) == SQLITE_ROW {
+                flag = 1
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
+                print("Already Exists: ")
+            }
+            if flag == 0 {
+                print("Doesn't exist")
+            }
+            
+        }else {
+            print("SELECT statement could not be prepared")
+            let errorMessage = String.init(cString: sqlite3_errmsg(db))
+            print("Error: \(errorMessage)")
+        }
+        // 6
+        sqlite3_finalize(queryStatement)
+        completion(flag)
+    }
     
     func selectAllPlayers(completion:()->()){
         var queryStatement: OpaquePointer? = nil
@@ -134,9 +221,6 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 let HomeRuns = sqlite3_column_int(queryStatement, 8)
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
-                //let sum = sqlite3_column_int(queryStatement, 11)
-                //let queryResultCol13 = sqlite3_column_text(queryStatement, 12)
-                print("CHecking: \(Hits)")
                 
                 let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
                 players.append(player)
