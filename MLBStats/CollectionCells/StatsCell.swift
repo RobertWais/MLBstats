@@ -25,7 +25,6 @@ class StatsCell: UICollectionViewCell {
         runsBattedInLbl.text = String(describing: player._runsBattedIn!)
         stolenBasesLbl.text = String(describing: player._stolenBases!)
         var view = UIView(frame: self.frame)
-        view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.white.cgColor
         self.addSubview(view)
     }
@@ -38,7 +37,6 @@ class StatsCell: UICollectionViewCell {
         runsBattedInLbl.text = String(describing: team._runsBattedIn!)
         stolenBasesLbl.text = String(describing: team._stolenBases!)
         var view = UIView(frame: self.frame)
-        view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.white.cgColor
         self.addSubview(view)
     }
