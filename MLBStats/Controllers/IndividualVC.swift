@@ -29,6 +29,7 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
+        
         self.tableView.tableHeaderView = searchController.searchBar
         
         // Setup the Scope Bar
@@ -185,7 +186,6 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             sqlite3_bind_int(queryStatement, 2, Int32(playerID))
             while(sqlite3_step(queryStatement)) == SQLITE_ROW {
                 flag = 1
-                let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
                 print("Already Exists: ")
             }
             if flag == 0 {
@@ -203,6 +203,7 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     }
     
     func selectAllPlayers(completion:()->()){
+        players.removeAll(keepingCapacity: false)
         var queryStatement: OpaquePointer? = nil
         var queryString: String?
         queryString = "SELECT * FROM (SELECT Player.FirstName,Player.LastName,Performance.PlayerID as ID, Performance.GameID, sum(Performance.Hits) as Hits, sum(Performance.RunsBattedIn) as RunsBattedIn, sum(Performance.BattingAverage) as BattingAverage, sum(Performance.StolenBases) as StolenBases, sum(Performance.HomeRuns) as HomeRuns, sum(Performance.Runs) as Runs, sum(Performance.AtBats) as AtBats, Team.Name as Name FROM Performance JOIN Player JOIN Plays_For JOIN Team on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID GROUP BY Player.FirstName, Player.LastName)"
@@ -213,7 +214,7 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
                 let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
                 let PlayerID = sqlite3_column_int(queryStatement, 2)
-                let GameID = sqlite3_column_int(queryStatement, 3)
+                //let GameID = sqlite3_column_int(queryStatement, 3)
                 let Hits = sqlite3_column_int(queryStatement, 4)
                 let RunsBattedIn = sqlite3_column_int(queryStatement, 5)
                 let BattingAverage = sqlite3_column_int(queryStatement, 6)
@@ -221,8 +222,9 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
                 let HomeRuns = sqlite3_column_int(queryStatement, 8)
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
+                 let teamName = sqlite3_column_text(queryStatement, 11)
                 
-                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
+                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats),teamname: String(cString: teamName!))
                 players.append(player)
             }
         }else {
@@ -307,6 +309,15 @@ extension IndividualVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         // TODO
         print("here---------")
+        if searchBarIsEmpty(){
+            selectAllPlayers {
+                tableView.reloadData()
+            }
+        }
         filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
+    override func pressesCancelled(_ presses: Set<UIPress>, with event: UIPressesEvent?) {
+        print("Cancels")
     }
 }

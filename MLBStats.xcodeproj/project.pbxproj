@@ -11,6 +11,7 @@
 		2E3EB58E2076FE2E004FDE84 /* IndividualVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */; };
 		2E3EB5902076FE5A004FDE84 /* IndividualStatsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */; };
 		2E42B454207830C4002D8779 /* Shared in Resources */ = {isa = PBXBuildFile; fileRef = 2E42B453207830C3002D8779 /* Shared */; };
+		2E6B037C209BC14C006E5FC1 /* PopoverVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6B037B209BC14C006E5FC1 /* PopoverVC.swift */; };
 		2EADCB8A2098D3A20060FD70 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADCB892098D3A20060FD70 /* LoginVC.swift */; };
 		2EADCB8D2098F3BF0060FD70 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADCB8C2098F3BF0060FD70 /* Team.swift */; };
 		2EADCB8F209958CD0060FD70 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EADCB8E209958CD0060FD70 /* User.swift */; };
@@ -30,6 +31,7 @@
 		2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualVC.swift; sourceTree = "<group>"; };
 		2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualStatsVC.swift; sourceTree = "<group>"; };
 		2E42B453207830C3002D8779 /* Shared */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Shared; path = "../../../../Downloads/sqlite-final/SQLiteTutorial/Shared"; sourceTree = "<group>"; };
+		2E6B037B209BC14C006E5FC1 /* PopoverVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverVC.swift; sourceTree = "<group>"; };
 		2EADCB892098D3A20060FD70 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		2EADCB8C2098F3BF0060FD70 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		2EADCB8E209958CD0060FD70 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				2E3EB58D2076FE2E004FDE84 /* IndividualVC.swift */,
 				2E3EB58F2076FE5A004FDE84 /* IndividualStatsVC.swift */,
 				2EADCB892098D3A20060FD70 /* LoginVC.swift */,
+				2E6B037B209BC14C006E5FC1 /* PopoverVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				2ED15FF22079AF1600526853 /* Player.swift in Sources */,
 				2EADCB8D2098F3BF0060FD70 /* Team.swift in Sources */,
 				2E3EB5902076FE5A004FDE84 /* IndividualStatsVC.swift in Sources */,
+				2E6B037C209BC14C006E5FC1 /* PopoverVC.swift in Sources */,
 				2EADCB8F209958CD0060FD70 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

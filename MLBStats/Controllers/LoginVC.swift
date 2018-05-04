@@ -13,10 +13,13 @@ class LoginVC: UIViewController {
     @IBOutlet var usernameLbl: UITextField!
     var db: OpaquePointer? = nil
     
+    @IBOutlet var loginBtn: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         db = openDB(path: prepareDatabaseFile())
-        
+        loginBtn.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        loginBtn.layer.borderWidth = 1
+        loginBtn.layer.cornerRadius = loginBtn.bounds.height/2
 
         // Do any additional setup after loading the view.
     }

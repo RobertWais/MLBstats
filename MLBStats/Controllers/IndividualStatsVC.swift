@@ -26,6 +26,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     var statsOption = "SB"
     var optionsSeperator = "Most"
     var teamOption = "Stars"
+    var tempID: Int?
     
  
     @IBAction func searchBtnPressed(_ sender: Any) {
@@ -137,8 +138,18 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         return 1
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        tempID = players[indexPath.row]._playerID!
+        self.performSegue(withIdentifier: "displayInfo", sender: self)
+    }
     
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "displayInfo"){
+            let vc = segue.destination as! PopoverVC
+            vc.PlayerID = tempID
+        }
+    }
     
     func query() {
         var queryStatement: OpaquePointer? = nil
@@ -174,8 +185,8 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     func selectPlayerStats(){
         print("Checking indy Stats")
         var queryStatement: OpaquePointer?
-        var name:NSString = "Harper"
-        var queryString = "SELECT Player.FirstName, Player.LastName, Performance.PlayerID, Performance.GameID, Performance.Hits, Performance.RunsBattedIn, Performance.BattingAverage, Performance.StolenBases, Performance.HomeRuns, Performance.Runs, Performance.AtBats  FROM Player JOIN Performance on Player.PlayerID = Performance.PlayerID GROUP BY Player.FirstName, Player.LastName HAVING Player.LastName = ?"
+        let name:NSString = "Harper"
+        let queryString = "SELECT Player.FirstName, Player.LastName, Performance.PlayerID, Performance.GameID, Performance.Hits, Performance.RunsBattedIn, Performance.BattingAverage, Performance.StolenBases, Performance.HomeRuns, Performance.Runs, Performance.AtBats  FROM Player JOIN Performance on Player.PlayerID = Performance.PlayerID GROUP BY Player.FirstName, Player.LastName HAVING Player.LastName = ?"
         
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
             //Entering Elements
@@ -230,7 +241,6 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         }
         //case loop to decise string
         var queryString: String?
-        var name:NSString = teamOption as NSString
         
         queryString = "SELECT * FROM (SELECT Player.FirstName, Player.LastName , Performance.PlayerID as ID, Performance.GameID, sum(Performance.Hits) as Hits, sum(Performance.RunsBattedIn) as RunsBattedIn, sum(Performance.BattingAverage) as BattingAverage, sum(Performance.StolenBases) as StolenBases, sum(Performance.HomeRuns) as HomeRuns, sum(Performance.Runs) as Runs, sum(Performance.AtBats) as AtBats, sum(\(word[attribute]!)), Team.Name as Name, FavoritePlayer.UserID as UserID FROM Performance JOIN Player JOIN Plays_For JOIN Team JOIN FavoritePlayer on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID AND FavoritePlayer.PlayerID = Player.PlayerID GROUP BY Player.FirstName, Player.LastName) WHERE UserID = ? ORDER BY \(word[attribute]!) \(delimeter!)"
         
@@ -250,10 +260,10 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 let HomeRuns = sqlite3_column_int(queryStatement, 8)
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
-                let sum = sqlite3_column_int(queryStatement, 11)
-                let queryResultCol13 = sqlite3_column_text(queryStatement, 12)
+                //let sum = sqlite3_column_int(queryStatement, 11)
+                let teamName = sqlite3_column_text(queryStatement, 12)
                 
-                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
+                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats),teamname: String(cString: teamName!))
                 players.append(player)
             }
         }else {
@@ -277,7 +287,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         }
         //case loop to decise string
         var queryString: String?
-        var name:NSString = teamOption as NSString
+        let name:NSString = teamOption as NSString
         queryString = "SELECT * FROM (SELECT Player.FirstName, Player.LastName , Performance.PlayerID as ID, Performance.GameID, sum(Performance.Hits) as Hits, sum(Performance.RunsBattedIn) as RunsBattedIn, sum(Performance.BattingAverage) as BattingAverage, sum(Performance.StolenBases) as StolenBases, sum(Performance.HomeRuns) as HomeRuns, sum(Performance.Runs) as Runs, sum(Performance.AtBats) as AtBats, sum(\(word[attribute]!)), Team.Name as Name FROM Performance JOIN Player JOIN Plays_For JOIN Team on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID GROUP BY Player.FirstName, Player.LastName) WHERE Name = ? ORDER BY \(word[attribute]!) \(delimeter!)"
         
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
@@ -297,9 +307,9 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
                 let sum = sqlite3_column_int(queryStatement, 11)
-                let queryResultCol13 = sqlite3_column_text(queryStatement, 12)
+                let teamName = sqlite3_column_text(queryStatement, 12)
                
-                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
+                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats), teamname: String(cString: teamName!))
                 players.append(player)
             }
         }else {
@@ -324,7 +334,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         }
         //case loop to decise string
         var queryString: String?
-        queryString = "SELECT Player.FirstName, Player.LastName, Performance.PlayerID, Performance.GameID, sum(Performance.Hits), sum(Performance.RunsBattedIn), sum(Performance.BattingAverage), sum(Performance.StolenBases), sum(Performance.HomeRuns), sum(Performance.Runs), sum(Performance.AtBats), sum(\(word[attribute]!)) FROM Player JOIN Performance on Player.PlayerID = Performance.PlayerID GROUP BY Player.FirstName, Player.LastName ORDER BY sum(\(word[attribute]!)) \(delimeter!)"
+        queryString = "SELECT Player.FirstName, Player.LastName, Performance.PlayerID, Performance.GameID, sum(Performance.Hits), sum(Performance.RunsBattedIn), sum(Performance.BattingAverage), sum(Performance.StolenBases), sum(Performance.HomeRuns), sum(Performance.Runs), sum(Performance.AtBats), sum(\(word[attribute]!)) , Team.Name as Name FROM Performance JOIN Player JOIN Plays_For JOIN Team on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID GROUP BY Player.FirstName, Player.LastName ORDER BY sum(\(word[attribute]!)) \(delimeter!)"
         
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
             //ATTEMPTS
@@ -344,6 +354,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
                 let sum = sqlite3_column_int(queryStatement, 11)
+                 let teamName = sqlite3_column_text(queryStatement, 12)
                 
                 print("Firstname: \(String(cString: queryResultCol1!))")
                 print("Lastname: \(String(cString: queryResultCol2!))")
@@ -357,7 +368,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 print("Runs: \(Runs)")
                 print("AtBats: \(AtBats)")
                 print("Stat sum: \(sum)")
-                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats))
+                let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats), teamname: String(cString: teamName!))
                 players.append(player)
                 
             }

@@ -21,9 +21,10 @@ struct Player {
      var _homeRuns: Int?
      var _runs: Int?
      var _atBats: Int?
+    var _teamName: String?
     
    
-    init(fName: String, lName: String, playerID: Int?, h: Int?, rbi: Int?, avg: Int?,sb: Int?, hr:  Int?, r: Int?, ab: Int?){
+    init(fName: String, lName: String, playerID: Int?, h: Int?, rbi: Int?, avg: Int?,sb: Int?, hr:  Int?, r: Int?, ab: Int?,teamname:String){
         _firstName = fName
         _lastName = lName
         _playerID = playerID
@@ -34,6 +35,7 @@ struct Player {
         _homeRuns = hr
         _runs=r
         _atBats=ab
+        _teamName=teamname
     }
     
     
