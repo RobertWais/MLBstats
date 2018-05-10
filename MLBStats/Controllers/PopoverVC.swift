@@ -19,18 +19,17 @@ var db: OpaquePointer? = nil
     @IBOutlet var age: UILabel!
     @IBOutlet var position: UILabel!
     
-    @IBOutlet var regView: UIView!
+    var teamName: String?
     var PlayerID: Int?
     override func viewDidLoad() {
         super.viewDidLoad()
         db = openDB(path: prepareDatabaseFile())
         
-        
         //Blur Effecr
-        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffect = UIBlurEffect(style: .regular)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = self.view.frame
-         self.view.insertSubview(blurEffectView, at: 0)
+        self.view.insertSubview(blurEffectView, at: 0)
         
         //Gesture Recognizer
         let recognizer = UITapGestureRecognizer(target: self, action:#selector(touchedSection(recognizer:)))
@@ -92,7 +91,9 @@ var db: OpaquePointer? = nil
         
         return documentUrl.path
     }
+    //END: Database Connections
     
+    //MARK: Used Queries
     func selectPlayerStats(){
         var queryStatement: OpaquePointer?
         let queryString = "SELECT  Player.FirstName, Player.LastName, Player.PlayerID, Player.Position,Player.JerseyNumber,Player.Age,Player.Height,Player.Weight FROM Player WHERE PlayerID = ?"
@@ -100,8 +101,6 @@ var db: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
             //Entering Elements
             sqlite3_bind_int(queryStatement, 1, Int32(PlayerID!))
-            
-            
             while(sqlite3_step(queryStatement)) == SQLITE_ROW {
                 let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
                 let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
@@ -118,24 +117,12 @@ var db: OpaquePointer? = nil
                 self.age.text = "Age: \(String(cString: age!))"
                 self.height.text = "Height: \(String(cString: height!))"
                 self.weight.text = "Weight: \(String(cString: weight!))"
-                
-                /*
-                print("Firstname: \(String(cString: queryResultCol1!))")
-                print("Lastname: \(String(cString: queryResultCol2!))")
-                print("PlayerID: \(PlayerID)")
-                print("Position \(String(cString: position!))")
-                print("JerseyNumber: \(String(cString: jerseyNumber!))")
-                print("Age: \(String(cString: age!))")
-                print("Height: \(String(cString: height!))")
-                print("Weight: \(String(cString: weight!))")
-                */
             }
         }else {
             print("SELECT statement could not be prepared")
         }
-        
-        // 6
         sqlite3_finalize(queryStatement)
     }
+    //END: Used Queries
 
 }

@@ -29,6 +29,7 @@ class LoginVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     @IBAction func signInAction(_ sender: Any) {
+        
         getUserName(completion: { (flag) in
             if(flag == 1){
                 self.performSegue(withIdentifier: "showTabs", sender: self)
@@ -36,6 +37,8 @@ class LoginVC: UIViewController {
                 //alert
             }
         })
+ 
+       
     }
     
     //MARK: SEGUES

@@ -13,7 +13,7 @@ class PlayerCellTVCell: UITableViewCell {
     @IBOutlet var firstNameLbl: UILabel!
     
     func configureCell(player: Player){
-        firstNameLbl.text = "\(player._firstName!) \(player._lastName!)"
+        firstNameLbl.text = "\(player.firstName) \(player.lastName)"
     }
     
     override func awakeFromNib() {

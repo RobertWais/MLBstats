@@ -15,20 +15,21 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var picker: UIPickerView!
     let queryStatementString = "SELECT PlayerID, FirstName, LastName, Position, JerseyNumber, Age, Height, Weight FROM Player"
-
-    var players = [Player]()
-    var word: [String:String] = ["SB":"StolenBases","RBI":"RunsBattedIn","AVG":"BattingAverage","H":"Hits","HR":"HomeRuns","R":"Runs","AB":"AtBats"]
-    var db: OpaquePointer? = nil
-    var pickerDataSource = [["1", "2", "3", "4"],["A","B","C"],["a","b","c","d"]];
-    var stats = ["SB","RBI","AVG","H","HR","R","AB"]
-    var options = ["Most","Least","Top 5"]
-    var teams = ["Orioles","Blue Jays","Red Sox","Yankees","Rays","Indians","Tigers","Royals","White Sox","Twins","Rangers","Astros","Mariners","Angels","Athletics","Nationals","Mets","Marlins","Phillies","Braves","Cubs","Pirates","Cardinals","Brewers","Reds","Giants","Dodgers","Rockies","Padres","Diamondbacks"]
-    var statsOption = "SB"
-    var optionsSeperator = "Most"
-    var teamOption = "Stars"
-    var tempID: Int?
     
- 
+    private var players = [Player]()
+    private var word: [String:String] = ["SB":"StolenBases","RBI":"RunsBattedIn","AVG":"BattingAverage","H":"Hits","HR":"HomeRuns","R":"Runs","AB":"AtBats"]
+    private var db: OpaquePointer? = nil
+    private var pickerDataSource = [["1", "2", "3", "4"],["A","B","C"],["a","b","c","d"]];
+    private var stats = ["SB","RBI","H","HR","R","AB"]
+    private var options = ["Most","Least","Top 5"]
+    private var teams = ["Orioles","Blue Jays","Red Sox","Yankees","Rays","Indians","Tigers","Royals","White Sox","Twins","Rangers","Astros","Mariners","Angels","Athletics","Nationals","Mets","Marlins","Phillies","Braves","Cubs","Pirates","Cardinals","Brewers","Reds","Giants","Dodgers","Rockies","Padres","Diamondbacks"]
+    private var statsOption = "SB"
+    private var optionsSeperator = "Most"
+    private var teamOption = "Stars"
+    private var tempID: Int?
+    private var teamName: String?
+    
+    //Action for Search Button Presses
     @IBAction func searchBtnPressed(_ sender: Any) {
         print("Stat: \(statsOption)")
         print("Option: \(optionsSeperator)")
@@ -45,10 +46,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         }else{
             selectTeamStats(type: "Most", attribute: statsOption, option: optionsSeperator)
             collectionView.reloadData()
-
-
         }
-        //selectPlayerStats()
     }
     
     override func viewDidLoad() {
@@ -61,8 +59,6 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         picker.delegate = self
         picker.dataSource = self
         picker.tintColor=UIColor.white
-        
-        
         //DB handling
         db = openDB(path: prepareDatabaseFile())
     }
@@ -72,7 +68,15 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         // Dispose of any resources that can be recreated.
     }
     
-    
+    //MARK: SEGUES
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "displayInfo"){
+            let vc = segue.destination as! PopoverVC
+            vc.PlayerID = tempID
+            vc.teamName = self.teamName
+        }
+    }
+    //END: SEGUES
     
     //MARK: PICKER VIEW
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -114,11 +118,9 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         
         print("Selected: 1:\(stats[picker.selectedRow(inComponent: 0)]) 2:\(options[picker.selectedRow(inComponent: 1)]) 3:\(teams[picker.selectedRow(inComponent: 2)])")
     }
-    
+    //END: PickerView
     
     //MARK: COLLECTION VIEW
-    
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return players.count
     }
@@ -133,24 +135,18 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         }
     }
     
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        tempID = players[indexPath.row]._playerID!
+        tempID = players[indexPath.row].playerID
+        teamName = players[indexPath.row].teamName
         self.performSegue(withIdentifier: "displayInfo", sender: self)
     }
+    //END: COLLECTION VIEW
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "displayInfo"){
-            let vc = segue.destination as! PopoverVC
-            vc.PlayerID = tempID
-        }
-    }
-    
+    //Mark: TEST QUERIES
     func query() {
         var queryStatement: OpaquePointer? = nil
         // 1
@@ -165,13 +161,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 let id = Int32(queryResultCol1)
                 let FirstName = String(cString: queryResultCol2!)
                 let lastName = String(cString:queryResultCol3!)
-                
-                print("Query Result:")
-                print("ID: \(id)")
-                print("FirstName: \(FirstName)")
-                print("LastName: \(lastName)")
                 count+=1
-                print("Count : \(count)")
             }
             print("Count \(count)")
         } else {
@@ -191,8 +181,6 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
             //Entering Elements
             sqlite3_bind_text(queryStatement, 1, name.utf8String, -1, nil)
-            
-            
             while(sqlite3_step(queryStatement)) == SQLITE_ROW {
                 let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
                 let queryResultCol2 = sqlite3_column_text(queryStatement, 1)
@@ -205,19 +193,6 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 let HomeRuns = sqlite3_column_int(queryStatement, 8)
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
-                
-                print("Firstname: \(String(cString: queryResultCol1!))")
-                print("Lastname: \(String(cString: queryResultCol2!))")
-                print("PlayerID: \(PlayerID)")
-                print("GameID: \(GameID)")
-                print("Hits: \(Hits)")
-                print("RunsBattedIm: \(RunsBattedIn)")
-                print("Batting Average: \(BattingAverage)")
-                print("StolenBases: \(Stolenbases)")
-                print("HomeRuns: \(HomeRuns)")
-                print("Runs: \(Runs)")
-                print("AtBats: \(AtBats)")
-                
             }
         }else {
             print("SELECT statement could not be prepared")
@@ -226,7 +201,12 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         // 6
         sqlite3_finalize(queryStatement)
     }
-    //////////////////
+    //END: Test Queries
+    
+    //MARK: Used Queries
+    //Subquery
+    //OrderBy
+    //Aggregate
     func selectStarsStats(type: String, attribute: String, option: String){
         print("Stars")
         players.removeAll(keepingCapacity: false)
@@ -272,9 +252,11 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         // 6
         sqlite3_finalize(queryStatement)
     }
-    //////////////////
+    
+    //Subquery
+    //OrderBy
+    //Aggregate
     func selectTeamStats(type: String, attribute: String, option: String){
-        print("Here")
         players.removeAll(keepingCapacity: false)
         var queryStatement: OpaquePointer? = nil
         var delimeter: String?
@@ -315,12 +297,13 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         }else {
             print("SELECT statement could not be prepared")
         }
-        // 6
         sqlite3_finalize(queryStatement)
     }
     
-    //////////////////
-    
+    //Subquery
+    //OrderBy
+    //Aggregate
+    //GroupBy
     func selectNonTeamStats(type: String, attribute: String, option: String){
         players.removeAll(keepingCapacity: false)
         var queryStatement: OpaquePointer? = nil
@@ -337,9 +320,6 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         queryString = "SELECT Player.FirstName, Player.LastName, Performance.PlayerID, Performance.GameID, sum(Performance.Hits), sum(Performance.RunsBattedIn), sum(Performance.BattingAverage), sum(Performance.StolenBases), sum(Performance.HomeRuns), sum(Performance.Runs), sum(Performance.AtBats), sum(\(word[attribute]!)) , Team.Name as Name FROM Performance JOIN Player JOIN Plays_For JOIN Team on Performance.PlayerID = Player.PlayerID AND  Player.PlayerID = Plays_For.PlayerID AND Plays_For.TeamID = Team.TeamID GROUP BY Player.FirstName, Player.LastName ORDER BY sum(\(word[attribute]!)) \(delimeter!)"
         
         if sqlite3_prepare_v2(db, queryString, -1, &queryStatement, nil) == SQLITE_OK {
-            //ATTEMPTS
-            //sqlite3_bind_text(queryStatement, 1, (word[attribute]! as NSString).utf8String, -1, nil)
-            //sqlite3_bind_text(queryStatement, 2, (word[attribute]! as NSString).utf8String, -1, nil)
             while(sqlite3_step(queryStatement)) == SQLITE_ROW {
                 //let queryResultCol1 = sqlite3_column_int(queryStatement, 0)
                 let queryResultCol1 = sqlite3_column_text(queryStatement, 0)
@@ -354,23 +334,10 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 let Runs = sqlite3_column_int(queryStatement, 9)
                 let AtBats = sqlite3_column_int(queryStatement, 10)
                 let sum = sqlite3_column_int(queryStatement, 11)
-                 let teamName = sqlite3_column_text(queryStatement, 12)
+                let teamName = sqlite3_column_text(queryStatement, 12)
                 
-                print("Firstname: \(String(cString: queryResultCol1!))")
-                print("Lastname: \(String(cString: queryResultCol2!))")
-                print("PlayerID: \(PlayerID)")
-                print("GameID: \(GameID)")
-                print("Hits: \(Hits)")
-                print("RunsBattedIm: \(RunsBattedIn)")
-                print("Batting Average: \(BattingAverage)")
-                print("StolenBases: \(Stolenbases)")
-                print("HomeRuns: \(HomeRuns)")
-                print("Runs: \(Runs)")
-                print("AtBats: \(AtBats)")
-                print("Stat sum: \(sum)")
                 let player = Player(fName: String(cString: queryResultCol1!), lName: String(cString: queryResultCol2!), playerID: Int(PlayerID), h: Int(Hits), rbi: Int(RunsBattedIn), avg: Int(BattingAverage), sb: Int(Stolenbases), hr: Int(HomeRuns), r: Int(Runs), ab: Int(AtBats), teamname: String(cString: teamName!))
                 players.append(player)
-                
             }
         }else {
             print("SELECT statement could not be prepared")
@@ -378,9 +345,9 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
         // 6
         sqlite3_finalize(queryStatement)
     }
+    //END: Used Queries
     
-    //DATABASE STUFF
-    
+    //DATABASE CONNECTIONS
     func openDB(path: String) -> OpaquePointer? {
         var db: OpaquePointer? = nil
         print("Path: \(String(describing: path))")
@@ -395,10 +362,7 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
     
     
     func prepareDatabaseFile() -> String {
-        
-        print("In prepareDatabase")
         let fileName: String = "Stats.db"
-        
         let fileManager:FileManager = FileManager.default
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         
@@ -418,11 +382,9 @@ class IndividualStatsVC: UIViewController,UIPickerViewDelegate,UIPickerViewDataS
                 print(error.localizedDescription)
             }
         }
-        
-        
-        
         return documentUrl.path
     }
+    //END: Database Connections
  
 
 }

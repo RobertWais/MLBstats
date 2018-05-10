@@ -22,18 +22,12 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ///////////
-        
-       
         searchController.searchResultsUpdater = self
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         searchController.searchBar.sizeToFit()
         
         self.tableView.tableHeaderView = searchController.searchBar
-        
-        // Setup the Scope Bar
-        
         
         ///////////
         db = openDB(path: prepareDatabaseFile())
@@ -94,17 +88,17 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             print("Arr: \(arr.count)")
         }
         let alert = UIAlertController(title: "Add Player",
-                                      message: "Would you like to add \(arr[indexPath.row]._firstName!) \(arr[indexPath.row]._lastName!) to your Stars",
+                                      message: "Would you like to add \(arr[indexPath.row].firstName) \(arr[indexPath.row].lastName) to your Stars",
                                       preferredStyle: .alert)
         let submitAction = UIAlertAction(title: "Add", style: .default, handler: { (action) -> Void in
-            self.checkPlayerID(playerID: arr[indexPath.row]._playerID!, userID: User.instance
+            self.checkPlayerID(playerID: arr[indexPath.row].playerID, userID: User.instance
                 .userId!, completion: { (num) in
                 if(num==1){
                     //Already Exists
                     print("Already there")
                     
                 }else{
-                    self.insertFavoritePlayer(playerID: arr[indexPath.row]._playerID!)
+                    self.insertFavoritePlayer(playerID: arr[indexPath.row].playerID)
                     //Doesnt exist
                 }
             })
@@ -119,14 +113,10 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }else{
             self.present(alert, animated: true, completion: nil)
         }
-        
-        
-        
-        
- 
     }
+    //END: TableView
     
-    //MARK: Queries
+    //MARK: Insert queries not used in program
     func insertFavoritePlayer(playerID: Int){
         var insertStatement: OpaquePointer? = nil
         let insertString = "INSERT INTO FavoritePlayer (UserID,PlayerID) VALUES (?,?)"
@@ -151,6 +141,9 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         // 6
         sqlite3_finalize(insertStatement)
     }
+    //END: Insert queries not used in program
+    
+    //MARK: Used Queries
     func checkAllFavPlayers(){
         var queryStatement: OpaquePointer? = nil
         var queryString: String?
@@ -170,7 +163,6 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             let errorMessage = String.init(cString: sqlite3_errmsg(db))
             print("Error: \(errorMessage)")
         }
-        // 6
         sqlite3_finalize(queryStatement)
     }
     func checkPlayerID(playerID: Int, userID: Int, completion: (Int)->()){
@@ -234,6 +226,8 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         sqlite3_finalize(queryStatement)
         completion()
     }
+    //END: Used Queries
+    
     
     
     
@@ -278,9 +272,10 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         }
         return db
     }
+    //END: Database Connections
     
     
-    //SearchBar
+    //Mark: SearchBar helper functions
     func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
@@ -295,20 +290,20 @@ class IndividualVC: UIViewController, UITableViewDelegate, UITableViewDataSource
             
         }else{
             filteredPlayers = players.filter({( player : Player) -> Bool in
-                return player._firstName!.lowercased().contains(searchText.lowercased()) || player._lastName!.lowercased().contains(searchText.lowercased())
+                return player.firstName.lowercased().contains(searchText.lowercased()) || player.lastName.lowercased().contains(searchText.lowercased())
             })
             tableView.reloadData()
         }
         
     }
+    //END: SearchBar helper functions
 
 }
 
+//Mark: SearchBar
 extension IndividualVC: UISearchResultsUpdating {
-    // MARK: - UISearchResultsUpdating Delegate
+    
     func updateSearchResults(for searchController: UISearchController) {
-        // TODO
-        print("here---------")
         if searchBarIsEmpty(){
             selectAllPlayers {
                 tableView.reloadData()
@@ -321,3 +316,4 @@ extension IndividualVC: UISearchResultsUpdating {
         print("Cancels")
     }
 }
+//END: SearchBar

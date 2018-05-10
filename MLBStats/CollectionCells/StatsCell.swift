@@ -18,18 +18,25 @@ class StatsCell: UICollectionViewCell {
     @IBOutlet var homeRunLbl: UILabel!
     @IBOutlet var runsBattedInLbl: UILabel!
     @IBOutlet var stolenBasesLbl: UILabel!
+    @IBOutlet var averageLbl: UILabel!
     
     func configureCell(player: Player){
-        firstName.text = "\(player._firstName!) \(player._lastName!)"
-        hitsLbl.text = String(describing: player._hits!)
-        homeRunLbl.text = String(describing: player._homeRuns!)
-        runsBattedInLbl.text = String(describing: player._runsBattedIn!)
-        stolenBasesLbl.text = String(describing: player._stolenBases!)
+        firstName.text = "\(player.firstName) \(player.lastName)"
+        hitsLbl.text = String(describing: player.hits)
+        homeRunLbl.text = String(describing: player.homeRuns)
+        runsBattedInLbl.text = String(describing: player.runsBattedIn)
+        stolenBasesLbl.text = String(describing: player.stolenBases)
+        var average: Double = 0
+        if player.atBats != 0{
+            average = Double(player.hits)/Double(player.atBats)
+        }
+        averageLbl.text = String(format: "AVG: %0.3f", arguments: [average])
+        //averageLbl.text = NSString(format: "%f.3f",average) as String
         let view = UIView(frame: self.frame)
         view.layer.borderColor = UIColor.white.cgColor
         self.addSubview(view)
-        print("team: \(player._teamName!)")
-        imageView.image = UIImage(named: player._teamName!)
+        print("team: \(player.teamName)")
+        imageView.image = UIImage(named: player.teamName)
     }
     
     func configureCell(team: Team){
@@ -46,3 +53,7 @@ class StatsCell: UICollectionViewCell {
         print("Done")
     }
 }
+
+
+
+

@@ -11,5 +11,4 @@ class User {
     static let instance = User()
     var username: String?
     var userId: Int?
-    
 }

@@ -77,6 +77,7 @@
 		2EADCB8B2098F3AC0060FD70 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				2EADCB8E209958CD0060FD70 /* User.swift */,
 				2ED15FF12079AF1600526853 /* Player.swift */,
 				2EADCB8C2098F3BF0060FD70 /* Team.swift */,
 			);
@@ -114,7 +115,6 @@
 				2EC339422041D12F0074AECB /* Assets.xcassets */,
 				2EC339442041D12F0074AECB /* LaunchScreen.storyboard */,
 				2EC339472041D12F0074AECB /* Info.plist */,
-				2EADCB8E209958CD0060FD70 /* User.swift */,
 			);
 			path = MLBStats;
 			sourceTree = "<group>";

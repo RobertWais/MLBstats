@@ -16,7 +16,7 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     
     var teams = [Team]()
     var word: [String:String] = ["SB":"StolenBases","RBI":"RunsBattedIn","AVG":"BattingAverage","H":"Hits","HR":"HomeRuns","R":"Runs","AB":"AtBats"]
-    var stats = ["SB","RBI","AVG","H","HR","R","AB"]
+    var stats = ["SB","RBI","H","HR","R","AB"]
     var statsOption = "SB"
     var namesArr = [String]()
     var march = [29,30,31]
@@ -45,9 +45,7 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         getAllTeams {
             collectionView.reloadData()
         }
-        //
-        //https://api.mysportsfeeds.com/v1.2/pull/mlb/2018-regular/roster_players.json?fordate=20180401&sort=team.abbr
-        //
+        //EXAMPLE URL calls
         //https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&team=bos"
         //Players: https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&team=bos
         //All Teams: https://api.mysportsfeeds.com/v1.2/pull/mlb/2017-regular/roster_players.json?fordate=20170910&sort=team.abbr
@@ -72,7 +70,7 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    /////////////////////////////////////////////////////////////////////////////
+    //END: Collection View
     
     //MARK: PickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -92,17 +90,12 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
         statsOption = stats[pickerView.selectedRow(inComponent: 0)]
-        
     }
+    //END: Collection View
     
-    
-    //MARK: API CALL
-    
-    
+    //MARK: Database Connection
     func prepareDatabaseFile() -> String {
-        
        let fileName: String = "Stats.db"
-        
         let fileManager:FileManager = FileManager.default
         let directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         
@@ -145,6 +138,10 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
+    //MARK: USED Queries
+    //Group By
+    //Order By
+    //Aggregate
     func getAllTeams(completion:()->()){
         teams.removeAll(keepingCapacity: false)
         var queryStatement: OpaquePointer? = nil
@@ -175,12 +172,9 @@ class TeamStatsVC: UIViewController, UICollectionViewDelegate, UICollectionViewD
         sqlite3_finalize(queryStatement)
         completion()
     }
+    //END: Used Queries
     
-    ///
-    ///
-    ///CODE TO INSERT DATA INTO DATABASE
-    ///
-    ///
+    //MARK: Queries to enter Data
     /*
     //INSERT TEAM
     func insertTeam(teamID: Int, cityName: NSString, stadium:  NSString, teamName: NSString){

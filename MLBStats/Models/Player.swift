@@ -11,17 +11,17 @@ struct Player {
     
     //
     //Change Later, Structs, vs Classes
-     var _firstName: String?
-     var _lastName: String?
-     var _playerID: Int?
-     var _hits: Int?
-     var _runsBattedIn: Int?
-     var _battingAverage: Int?
-     var _stolenBases: Int?
-     var _homeRuns: Int?
-     var _runs: Int?
-     var _atBats: Int?
-    var _teamName: String?
+    private var _firstName: String?
+    private  var _lastName: String?
+    private  var _playerID: Int?
+    private  var _hits: Int?
+    private  var _runsBattedIn: Int?
+    private  var _battingAverage: Int?
+    private  var _stolenBases: Int?
+    private  var _homeRuns: Int?
+    private   var _runs: Int?
+    private   var _atBats: Int?
+    private  var _teamName: String?
     
    
     init(fName: String, lName: String, playerID: Int?, h: Int?, rbi: Int?, avg: Int?,sb: Int?, hr:  Int?, r: Int?, ab: Int?,teamname:String){
@@ -37,6 +37,44 @@ struct Player {
         _atBats=ab
         _teamName=teamname
     }
+    
+    var firstName: String {
+        return _firstName!
+    }
+    
+    var lastName: String {
+        return _lastName!
+    }
+    var playerID: Int {
+        return _playerID!
+    }
+    var hits: Int {
+        return _hits!
+    }
+    var runsBattedIn: Int {
+        return _runsBattedIn!
+    }
+    
+    var stolenBases: Int {
+        return _stolenBases!
+    }
+    
+    var homeRuns: Int{
+        return _homeRuns!
+    }
+    
+    var runs: Int{
+        return _runs!
+    }
+    
+    var atBats: Int{
+        return _atBats!
+    }
+    
+    var teamName: String{
+        return _teamName!
+    }
+    
     
     
 }
